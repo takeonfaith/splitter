@@ -24,7 +24,7 @@ type UserProps = TUser & {
   chosen: boolean;
 };
 
-const User = ({ id, name, photo, phone, chosen }: UserProps) => {
+const User = ({ id, name, photo, bank, chosen }: UserProps) => {
   return (
     <UserStyled>
       <Avatar photo={photo} />
