@@ -18,6 +18,9 @@ const ButtonStyled = styled.button<{
   pointer-events: ${({ active }) => (active ? "all" : "none")};
   opacity: ${({ active }) => (active ? "1" : "0.2")};
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {

@@ -5,11 +5,14 @@ import { TProduct } from "../../entity/product/type";
 import { Input } from "../../common/input";
 import { Button } from "../../common/button";
 import { v4 as uuid } from "uuid";
+import { ChevronRight } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 const AddProductsStyled = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 8px;
+  height: 100%;
 
   .list-of-products {
     height: 100%;
@@ -20,13 +23,19 @@ const AddProductsStyled = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+    width: 100%;
 
     .inputs {
       display: flex;
       align-items: center;
       column-gap: 8px;
     }
-    width: 100%;
+
+    .buttons-list {
+      display: flex;
+      align-items: center;
+      column-gap: 8px;
+    }
   }
 `;
 
@@ -36,6 +45,8 @@ const AddProducts = () => {
   const [price, setPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(0);
   const isActive = !!name && !!price && !!quantity;
+  const isNext = addedProducts.length >= 1;
+  const navigate = useNavigate();
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -61,8 +72,13 @@ const AddProducts = () => {
     ]);
   };
 
+  const handleGoNext = () => {
+    navigate("/assign-product-to-contacts");
+  };
+
   return (
     <AddProductsStyled>
+      <h2>Список продуктов</h2>
       <div className="list-of-products">
         {addedProducts.map((product) => {
           return <ProductItem {...product} key={product.id} />;
@@ -88,14 +104,25 @@ const AddProducts = () => {
             onChange={handleChangeQuantity}
           />
         </div>
-        <Button
-          color="var(--tg-theme-button-text-color)"
-          background="var(--tg-theme-secondary-bg-color)"
-          active={isActive}
-          onClick={handleAddProduct}
-        >
-          Добавить
-        </Button>
+        <div className="buttons-list">
+          <Button
+            color="var(--tg-theme-button-text-color)"
+            background="var(--tg-theme-button-color)"
+            active={isActive}
+            onClick={handleAddProduct}
+          >
+            Добавить
+          </Button>
+          <Button
+            color="var(--tg-theme-button-text-color)"
+            background="var(--tg-theme-button-color)"
+            active={isNext}
+            onClick={handleGoNext}
+            width="50px"
+          >
+            <ChevronRight />
+          </Button>
+        </div>
       </div>
     </AddProductsStyled>
   );
