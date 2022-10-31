@@ -5,11 +5,13 @@ import { TUser } from "./type";
 type TStore = {
   contacts: TUser[];
   chosenContacts: string[];
+  payers: { id: string; quantity: number }[];
 };
 
 const DEFAULT_STORE: TStore = {
   contacts: [],
   chosenContacts: [],
+  payers: [],
 };
 
 export const choose = createEvent<{ id: string }>();
@@ -18,7 +20,8 @@ const getContacts = createEffect(() => {
 });
 
 const $userStore = createStore(DEFAULT_STORE)
-  .on(choose, ({ contacts, chosenContacts }, { id }) => ({
+  .on(choose, ({ payers, contacts, chosenContacts }, { id }) => ({
+    payers,
     contacts,
     chosenContacts: chosenContacts.find((el) => el === id)
       ? chosenContacts.filter((el) => el !== id)

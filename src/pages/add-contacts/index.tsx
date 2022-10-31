@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../common/button";
 import { Input } from "../../common/input";
+import { v4 as uuidv4 } from "uuid";
 
 const AddContactsStyled = styled.div`
   width: 100%;
@@ -39,6 +40,7 @@ const AddContacts = () => {
   const handleAddContact = () => {
     const contacts = JSON.parse(localStorage.getItem("contacts") ?? "[]");
     contacts.push({
+      id: uuidv4(),
       name,
       login: login ?? null,
       bank,

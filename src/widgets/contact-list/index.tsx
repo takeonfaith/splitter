@@ -13,12 +13,15 @@ const ContactListStyled = styled.div`
 `;
 
 const ContactList = () => {
-  const { contacts, chosenContacts } = useContacts();
+  const { contacts, chosenContacts, payers } = useContacts();
+  console.log(chosenContacts);
+
   return (
     <ContactListStyled>
       {contacts.map((contact) => {
         return (
           <User
+            paid={!!payers.find((payer) => payer.id === contact.id)}
             key={contact.id}
             {...contact}
             chosen={chosenContacts.includes(contact.id)}

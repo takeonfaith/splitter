@@ -5,8 +5,9 @@ const ButtonStyled = styled.button<{
   background: string;
   color: string;
   active: boolean;
+  width?: string;
 }>`
-  width: 100%;
+  width: ${({ width }) => width ?? "100%"};
   background: ${({ background }) => background};
   color: ${({ color }) => color};
   padding: 12px;
@@ -23,6 +24,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   background: string;
   color: string;
   active: boolean;
+  width?: string;
 };
 
 const Button = ({
