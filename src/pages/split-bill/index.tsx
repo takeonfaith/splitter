@@ -14,9 +14,6 @@ const SplitBillStyled = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 8px;
-  box-shadow: 0 3px 4px #00000023;
-  padding: 10px;
-  border-radius: 10px;
 
   .users {
     height: 100%;
