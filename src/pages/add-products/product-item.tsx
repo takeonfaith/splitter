@@ -1,5 +1,4 @@
 import React from "react";
-import { Input } from "../../common/input";
 import styled from "styled-components";
 import { TProduct } from "../../entity/product/type";
 
