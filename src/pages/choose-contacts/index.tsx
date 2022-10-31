@@ -7,6 +7,7 @@ import { TUser } from "../../entity/contacts";
 import { Button } from "../../common/button";
 import ContactList from "../../widgets/contact-list";
 import { useNavigate } from "react-router-dom";
+import { useContacts } from "../../entity/contacts/model";
 
 const ChooseContactsStyled = styled.div`
   width: 100%;
@@ -25,7 +26,7 @@ const ChooseContactsStyled = styled.div`
 `;
 
 const ChooseContacts = () => {
-  const [chosenContacts, setChosenContacts] = useState<string[]>([]);
+  const { chosenContacts } = useContacts();
   const isActive = chosenContacts.length >= 2;
   const navigate = useNavigate();
 
