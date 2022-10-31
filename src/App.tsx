@@ -6,12 +6,12 @@ import SplitBill from "./pages/split-bill";
 
 const AppStyled = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 5px;
+  padding: 15px;
 `;
 
 function App() {
