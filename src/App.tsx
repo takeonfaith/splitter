@@ -1,8 +1,11 @@
-import React from "react";
+import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import { Routes, Route } from "react-router-dom";
 import AddContacts from "./pages/add-contacts";
-import SplitBill from "./pages/split-bill";
+import AddProducts from "./pages/add-products";
+import {
+  default as ChooseContacts,
+  default as SplitBill,
+} from "./pages/choose-contacts";
 
 const AppStyled = styled.div`
   width: 100%;
@@ -19,6 +22,8 @@ function App() {
     <AppStyled>
       <Routes>
         <Route path="/add-contacts" element={<AddContacts />} />
+        <Route path="/choose-contacts" element={<ChooseContacts />} />
+        <Route path="/add-products" element={<AddProducts />} />
         <Route path="/split-bill" element={<SplitBill />} />
       </Routes>
     </AppStyled>

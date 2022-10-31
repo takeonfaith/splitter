@@ -26,7 +26,7 @@ const UserStyled = styled.div<{ chosen: boolean }>`
     .checkbox {
       width: ${({ chosen }) => (chosen ? "25px" : "0")};
       opacity: ${({ chosen }) => (chosen ? "1" : "0")};
-      transition: 0.2s width;
+      transition: 0.2s width, 0.2s opacity;
       height: 25px;
       border-radius: 100%;
       display: flex;
@@ -40,10 +40,6 @@ const UserStyled = styled.div<{ chosen: boolean }>`
         color: #fff;
       }
     }
-  }
-
-  &:hover {
-    background: var(--tg-theme-secondary-bg-color);
   }
 `;
 

@@ -6,8 +6,9 @@ import styled from "styled-components";
 import { TUser } from "../../entity/contacts";
 import { Button } from "../../common/button";
 import ContactList from "../../widgets/contact-list";
+import { useNavigate } from "react-router-dom";
 
-const SplitBillStyled = styled.div`
+const ChooseContactsStyled = styled.div`
   width: 100%;
   max-width: 550px;
   height: 100%;
@@ -23,12 +24,13 @@ const SplitBillStyled = styled.div`
   }
 `;
 
-const SplitBill = () => {
+const ChooseContacts = () => {
   const [chosenContacts, setChosenContacts] = useState<string[]>([]);
   const isActive = chosenContacts.length >= 2;
+  const navigate = useNavigate();
 
   return (
-    <SplitBillStyled>
+    <ChooseContactsStyled>
       <h2>Выберите участников</h2>
       <Input placeholder="Поиск контактов" />
       <ContactList />
@@ -36,11 +38,12 @@ const SplitBill = () => {
         background="var(--tg-theme-button-color)"
         color="var(--tg-theme-button-text-color)"
         active={isActive}
+        onClick={() => navigate("/add-products")}
       >
         Далее
       </Button>
-    </SplitBillStyled>
+    </ChooseContactsStyled>
   );
 };
 
-export default SplitBill;
+export default ChooseContacts;
