@@ -1,6 +1,8 @@
 import React from "react";
-import { User } from "./components/user";
 import styled from "styled-components";
+import { Routes, Route } from "react-router-dom";
+import AddContacts from "./pages/add-contacts";
+import SplitBill from "./pages/split-bill";
 
 const AppStyled = styled.div`
   width: 100%;
@@ -15,27 +17,10 @@ const AppStyled = styled.div`
 function App() {
   return (
     <AppStyled>
-      <User
-        id={"0"}
-        name={"Test Test"}
-        photo={""}
-        phone={"88005553535"}
-        chosen
-      />
-      <User
-        id={"0"}
-        name={"Test Test"}
-        photo={""}
-        phone={"88005553535"}
-        chosen
-      />
-      <User
-        id={"0"}
-        name={"Test Test"}
-        photo={""}
-        phone={"88005553535"}
-        chosen
-      />
+      <Routes>
+        <Route path="/add-contacts" element={<AddContacts />} />
+        <Route path="/split-bill" element={<SplitBill />} />
+      </Routes>
     </AppStyled>
   );
 }

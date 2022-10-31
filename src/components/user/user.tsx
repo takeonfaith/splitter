@@ -12,7 +12,6 @@ const UserStyled = styled.div`
   display: flex;
   align-items: center;
   box-shadow: 0 2px 3px #0000002d;
-  margin: 5px;
 
   column-gap: 8px;
 
