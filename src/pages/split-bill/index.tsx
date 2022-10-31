@@ -5,6 +5,7 @@ import { User } from "../../components/user";
 import styled from "styled-components";
 import { TUser } from "../../entity/contacts";
 import { Button } from "../../common/button";
+import ContactList from "../../widgets/contact-list";
 
 const SplitBillStyled = styled.div`
   width: 100%;
@@ -23,24 +24,14 @@ const SplitBillStyled = styled.div`
 `;
 
 const SplitBill = () => {
-  const contacts = JSON.parse(
-    localStorage.getItem("contacts") ?? "[]"
-  ) as TUser[];
   const [chosenContacts, setChosenContacts] = useState<string[]>([]);
   const isActive = chosenContacts.length >= 2;
-  console.log(contacts);
 
   return (
     <SplitBillStyled>
       <h2>Выберите участников</h2>
       <Input placeholder="Поиск контактов" />
-      <div className="users">
-        {contacts.map(({ name, login, bank }) => {
-          return (
-            <User id={name} name={name} photo={""} bank={bank} chosen={false} />
-          );
-        })}
-      </div>
+      <ContactList />
       <Button
         background="var(--tg-theme-button-color)"
         color="var(--tg-theme-button-text-color)"
