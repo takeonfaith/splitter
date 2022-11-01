@@ -48,6 +48,7 @@ const AssignProductsToContacts = () => {
   const { tg } = useTelegram();
   const { products } = useProducts();
   const { contacts, chosenContacts, payers } = useContacts();
+  const [error, setError] = useState<string | null>(null);
   const [productsUsage, setProductsUsage] = useState(
     products.reduce((acc, el) => {
       acc[el.id] = 0;
@@ -113,20 +114,24 @@ const AssignProductsToContacts = () => {
   };
 
   const handleSend = () => {
-    const normalizedAssigned = assignedProducts;
-    Object.keys(normalizedAssigned).forEach((name) => {
-      normalizedAssigned[name].forEach((p) => {
-        console.log(p.product.name, productsUsage[p.product.id]);
+    try {
+      const normalizedAssigned = assignedProducts;
+      Object.keys(normalizedAssigned).forEach((name) => {
+        normalizedAssigned[name].forEach((p) => {
+          console.log(p.product.name, productsUsage[p.product.id]);
 
-        const quantity = productsUsage[p.product.id];
-        p.proportion = 1 / quantity;
+          const quantity = productsUsage[p.product.id];
+          p.proportion = 1 / quantity;
+        });
       });
-    });
-    console.log(normalizedAssigned);
+      console.log(normalizedAssigned);
 
-    const data = JSON.stringify({ payers, list: normalizedAssigned });
-    tg.sendData(data);
-    tg.close();
+      const data = JSON.stringify({ payers, list: normalizedAssigned });
+      tg.sendData(data);
+      tg.close();
+    } catch (error) {
+      setError(JSON.stringify(error));
+    }
   };
 
   return (
@@ -134,6 +139,7 @@ const AssignProductsToContacts = () => {
       <div className="top">
         <h2>Выберите товары</h2>
         <User {...currentContactData} />
+        {error && <h3>{error}</h3>}
       </div>
       <div className="list-of-products">
         <Input width="100%" placeholder="Поиск продуктов" />
