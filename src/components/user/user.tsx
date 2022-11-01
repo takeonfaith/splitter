@@ -48,8 +48,8 @@ type UserProps = TUser & {
   chosen: boolean;
   onChoose: Event<{ id: string }>;
   didPay: boolean;
-  paid: number;
-  onPay: Event<{ id: string; paid: number }>;
+  paid?: number;
+  onPay?: Event<{ id: string; paid: number }>;
 };
 
 const User = ({
