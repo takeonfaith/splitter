@@ -25,7 +25,7 @@ function App() {
 
   return (
     <AppStyled>
-      {<p>{JSON.stringify(tg)}</p>}
+      {<p>{JSON.stringify(tg.showPopup)}</p>}
       <Routes>
         <Route path="/add-contacts" element={<AddContacts />} />
         <Route path="/choose-contacts" element={<ChooseContacts />} />
