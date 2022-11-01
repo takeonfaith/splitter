@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import useTelegram from "./hooks/use-telegram";
@@ -23,16 +23,22 @@ const AppStyled = styled.div`
 
 function App() {
   const { showPopup } = useTelegram();
+  const [error, seterror] = useState<string | null>(null);
 
   useEffect(() => {
-    showPopup("Test", "Тестовое сообщение", [
-      { id: "1", text: "Да", type: "ok" },
-      { id: "2", text: "Нет", type: "close" },
-    ]);
+    try {
+      showPopup("Test", "Тестовое сообщение", [
+        { id: "1", text: "Да", type: "ok" },
+        { id: "2", text: "Нет", type: "close" },
+      ]);
+    } catch (error) {
+      seterror(JSON.stringify(error));
+    }
   }, [showPopup]);
 
   return (
     <AppStyled>
+      {error && <h1>{error}</h1>}
       <Routes>
         <Route path="/add-contacts" element={<AddContacts />} />
         <Route path="/choose-contacts" element={<ChooseContacts />} />
