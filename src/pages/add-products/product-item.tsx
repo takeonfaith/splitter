@@ -136,7 +136,11 @@ const ProductItem = ({
           chosen={chosen}
         />
         <div className="text">
-          <b>{name}</b>
+          <b>
+            {size === "sm"
+              ? name.substring(0, 10) + (name.length > 10 ? "..." : "")
+              : name}
+          </b>
           <div className="info">
             <div>
               Цена: <span>{price}</span> руб.
