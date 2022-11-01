@@ -3,7 +3,6 @@ import { ChevronRight, Trash } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
-import { Block } from "../../common/block";
 import { Button } from "../../common/button";
 import { Input } from "../../common/input";
 import {
@@ -15,11 +14,17 @@ import {
 import { TProduct } from "../../entity/product/type";
 import ProductItem from "./product-item";
 
-const MessageBlock = styled(Block)`
+const MessageBlock = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 350px;
+  width: 100%;
+  text-align: center;
+  background: var(--tg-theme-secondary-bg-color);
+  color: var(--tg-theme-hint-color);
+  width: fit-content;
 `;
 
 const AddProductsStyled = styled.div`
@@ -144,11 +149,7 @@ const AddProducts = () => {
     <AddProductsStyled>
       <h2>Список продуктов</h2>
       {products.length === 0 && (
-        <MessageBlock
-          background="var(--tg-theme-secondary-bg-color)"
-          color="var(--tg-theme-hint-color)"
-          width="fit-content"
-        >
+        <MessageBlock>
           Введине название товара, его цену и количество
         </MessageBlock>
       )}

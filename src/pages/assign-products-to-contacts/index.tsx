@@ -113,29 +113,17 @@ const AssignProductsToContacts = () => {
             active
             onClick={handlePrevContact}
           >
-            Предыдущий пользователь
+            Назад
           </Button>
         )}
-        {currentContact < chosenContacts.length - 1 && (
-          <Button
-            color={"var(--tg-theme-button-text-color)"}
-            background={"var(--tg-theme-button-color)"}
-            active
-            onClick={handleNextContact}
-          >
-            Следующий пользователь
-          </Button>
-        )}
-        {currentContact === chosenContacts.length - 1 && (
-          <Button
-            color={"var(--tg-theme-button-text-color)"}
-            background={"var(--tg-theme-button-color)"}
-            active
-            onClick={handleNextContact}
-          >
-            Расчитать
-          </Button>
-        )}
+        <Button
+          color={"var(--tg-theme-button-text-color)"}
+          background={"var(--tg-theme-button-color)"}
+          active
+          onClick={handleNextContact}
+        >
+          Далее
+        </Button>
       </div>
     </AssignProductsToContactsStyled>
   );

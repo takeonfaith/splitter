@@ -15,7 +15,7 @@ const CheckStyled = styled.div<{ chosen: boolean }>`
   position: absolute;
   bottom: -2px;
   right: -2px;
-  background: red;
+  background: var(--tg-theme-button-color);
   border: 2px solid var(--tg-theme-bg-color);
 
   svg {
