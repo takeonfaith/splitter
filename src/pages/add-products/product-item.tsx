@@ -6,31 +6,50 @@ import { TProduct } from "../../entity/product/type";
 import { Edit2 } from "react-feather";
 import Avatar from "../../components/user/avatar";
 
-const ProductItemStyled = styled(Block)<{ editing: boolean }>`
+const ProductItemStyled = styled(Block)<{ chosen: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  column-gap: 8px;
-  animation: fadeIn 0.2s forwards;
-  border: ${({ editing }) =>
-    editing ? "2px solid var(--tg-theme-button-color)" : "none"};
 
-  .left {
-    display: flex;
+  &.md {
+    justify-content: space-between;
     column-gap: 8px;
-    align-items: center;
+    animation: fadeIn 0.2s forwards;
+    border: ${({ chosen }) =>
+      chosen ? "2px solid var(--tg-theme-button-color)" : "none"};
+
+    .left {
+      display: flex;
+      column-gap: 8px;
+      align-items: center;
+
+      .text {
+        display: flex;
+        flex-direction: column;
+
+        .info {
+          font-size: 0.85rem;
+          margin-top: 4px;
+          color: var(--tg-theme-hint-color);
+          display: flex;
+          column-gap: 8px;
+        }
+      }
+    }
+  }
+
+  &.sm {
+    flex-direction: column;
 
     .text {
-      display: flex;
-      flex-direction: column;
+      margin-top: 10px;
 
       .info {
-        font-size: 0.85rem;
-        margin-top: 4px;
-        color: var(--tg-theme-hint-color);
-        display: flex;
-        column-gap: 8px;
+        display: none;
       }
+    }
+
+    .edit-btn {
+      display: none;
     }
   }
 
@@ -50,11 +69,23 @@ const icons = {
   Пицца: "🍕",
   Бургер: "🍔",
   Кола: "🥤",
+  Спрайт: "🥤",
+  Фанта: "🥤",
+  Пепси: "🥤",
+  Напитки: "🥤",
+  Коктейль: "🍸",
+  Виски: "🥃",
+  Вино: "🍷",
+  Пиво: "🍺",
+  Шашлык: "🍢",
+  Мясо: "🥩",
+  Вода: "💧",
 };
 
 type Props = TProduct & {
-  editing?: boolean;
+  chosen?: boolean;
   onEdit: (id: string) => void;
+  size?: "sm" | "md";
 };
 
 const ProductItem = ({
@@ -63,16 +94,17 @@ const ProductItem = ({
   price,
   quantity,
   onEdit,
-  editing = false,
+  size = "md",
+  chosen = false,
 }: Props) => {
   const handleEdit = () => {
     onEdit(id);
   };
 
   return (
-    <ProductItemStyled editing={editing}>
+    <ProductItemStyled chosen={chosen} className={"product-item " + size}>
       <div className="left">
-        <Avatar icon={icons[name as keyof typeof icons] ?? "📦"} />
+        <Avatar icon={icons[name.trim() as keyof typeof icons] ?? "📦"} />
         <div className="text">
           <h4>{name}</h4>
           <div className="info">
@@ -91,6 +123,7 @@ const ProductItem = ({
         background={"var(--tg-theme-secondary-bg-color)"}
         active
         onClick={handleEdit}
+        className="edit-btn"
         width="40px"
       >
         <Edit2 />

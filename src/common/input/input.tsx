@@ -19,14 +19,17 @@ const InputStyled = styled.div<{ width?: string }>`
   }
 `;
 
-type Props = React.InputHTMLAttributes<HTMLInputElement> & {
+type Props = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+> & {
   width?: string;
 };
 
-const Input: FC<Props> = ({ width, ...restProps }) => {
+const Input: FC<Props> = ({ width, ref, ...restProps }) => {
   return (
     <InputStyled width={width}>
-      <input type={restProps.type ?? "text"} {...restProps} />
+      <input type={restProps.type ?? "text"} ref={ref} {...restProps} />
     </InputStyled>
   );
 };

@@ -1,16 +1,17 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { User } from "react-feather";
+import Check from "../../common/check/check";
 
 const AvatarStyled = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 100%;
-  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--tg-theme-secondary-bg-color);
+  position: relative;
 
   svg {
     width: 20px;
@@ -28,9 +29,10 @@ type AvatarProps = {
   icon?: React.ReactNode | string;
   photo?: string;
   alt?: string;
+  chosen?: boolean;
 };
 
-const Avatar = ({ photo, alt, icon }: AvatarProps) => {
+const Avatar = ({ photo, alt, icon, chosen = false }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
 
   const handleLoad = useCallback(() => {
@@ -43,6 +45,7 @@ const Avatar = ({ photo, alt, icon }: AvatarProps) => {
       ) : (
         icon ?? <User />
       )}
+      <Check chosen={chosen} />
     </AvatarStyled>
   );
 };

@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import ProductItem from "./product-item";
-import styled from "styled-components";
-import { TProduct } from "../../entity/product/type";
-import { Input } from "../../common/input";
-import { Button } from "../../common/button";
-import { v4 as uuid } from "uuid";
+import React, { useRef, useState } from "react";
 import { ChevronRight, Trash } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { v4 as uuid } from "uuid";
+import { Button } from "../../common/button";
+import { Input } from "../../common/input";
 import {
   addProduct,
   editProduct,
   removeProduct,
   useProducts,
 } from "../../entity/product/model";
+import { TProduct } from "../../entity/product/type";
+import ProductItem from "./product-item";
 
 const AddProductsStyled = styled.div`
   display: flex;
@@ -57,6 +57,7 @@ const AddProducts = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | undefined>();
   const [quantity, setQuantity] = useState<number | undefined>();
+  const nameRef = useRef<HTMLInputElement | null>(null);
   const isActive = !!name && !!price && !!quantity;
   const isNext = products.length >= 1;
   const navigate = useNavigate();
@@ -89,6 +90,9 @@ const AddProducts = () => {
       } as TProduct);
     }
     resetFields();
+    console.log(nameRef.current);
+
+    nameRef.current?.focus();
   };
 
   const editingStartHandle = (id: string) => {
@@ -120,7 +124,6 @@ const AddProducts = () => {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("handleSubmit");
 
     if (!!edit) {
       return editHandle();
@@ -138,7 +141,7 @@ const AddProducts = () => {
             <ProductItem
               {...product}
               key={product.id}
-              editing={edit === product.id}
+              chosen={edit === product.id}
               onEdit={editingStartHandle}
             />
           );
@@ -149,6 +152,7 @@ const AddProducts = () => {
           <Input
             placeholder="Название"
             value={name}
+            ref={nameRef}
             onChange={handleChangeName}
           />
           <Input

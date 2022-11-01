@@ -1,10 +1,9 @@
-import React, { useCallback } from "react";
-import { TUser } from "../../entity/contacts";
-import styled from "styled-components";
-import Avatar from "./avatar";
 import { Event } from "effector";
-import { Check } from "react-feather";
+import { useCallback } from "react";
+import styled from "styled-components";
 import { Button } from "../../common/button";
+import { TUser } from "../../entity/contacts";
+import Avatar from "./avatar";
 
 const UserStyled = styled.div<{ chosen: boolean }>`
   width: 100%;
@@ -23,24 +22,6 @@ const UserStyled = styled.div<{ chosen: boolean }>`
     align-items: center;
     width: 100%;
     column-gap: 8px;
-
-    .checkbox {
-      width: ${({ chosen }) => (chosen ? "25px" : "0")};
-      opacity: ${({ chosen }) => (chosen ? "1" : "0")};
-      transition: 0.2s width, 0.2s opacity;
-      height: 25px;
-      border-radius: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--tg-theme-button-color);
-
-      svg {
-        width: 14px;
-        height: 14px;
-        color: #fff;
-      }
-    }
   }
 `;
 
@@ -67,10 +48,7 @@ const User = ({
   return (
     <UserStyled onClick={handleChoose} chosen={chosen}>
       <div className="left">
-        <div className="checkbox">
-          <Check />
-        </div>
-        <Avatar photo={photo} />
+        <Avatar photo={photo} chosen={chosen} />
         <div>
           <h4>{name}</h4>
         </div>
