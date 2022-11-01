@@ -14,7 +14,6 @@ const ContactListStyled = styled.div`
 
 const ContactList = () => {
   const { contacts, chosenContacts, payers } = useContacts();
-  console.log(chosenContacts);
 
   return (
     <ContactListStyled>
@@ -22,7 +21,7 @@ const ContactList = () => {
         return (
           <User
             paid={0}
-            didPay={
+            canPay={
               !!Object.keys(payers).find((payer) => payer === contact.name)
             }
             key={contact.id}

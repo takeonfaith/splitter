@@ -15,7 +15,7 @@ const DEFAULT_STORE: TStore = {
 };
 
 export const choose = createEvent<{ id: string }>();
-export const addPayer = createEvent<{ name: string; paid: number }>();
+export const changePayer = createEvent<{ name: string; sum: number }>();
 const getContacts = createEffect(() => {
   return JSON.parse(localStorage.getItem("contacts") ?? "[]") as TUser[];
 });
@@ -32,9 +32,9 @@ const $userStore = createStore(DEFAULT_STORE)
     ...state,
     contacts,
   }))
-  .on(addPayer, (state, { name, paid }) => ({
+  .on(changePayer, (state, { name, sum }) => ({
     ...state,
-    payers: { ...state.payers, [name]: paid },
+    payers: { ...state.payers, [name]: sum },
   }));
 
 getContacts();

@@ -1,8 +1,10 @@
 import { Event } from "effector";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../common/button";
+import { Input } from "../../common/input";
 import { TUser } from "../../entity/contacts";
+import { changePayer } from "../../entity/contacts/model";
 import Avatar from "./avatar";
 
 const UserStyled = styled.div<{ chosen: boolean }>`
@@ -12,10 +14,15 @@ const UserStyled = styled.div<{ chosen: boolean }>`
   padding: 10px;
   border-radius: 6px;
   display: flex;
-  align-items: center;
   box-shadow: 0 2px 3px #0000002d;
   column-gap: 8px;
   color: var(--tg-theme-text-color);
+  flex-direction: column;
+
+  .user-basic {
+    display: flex;
+    align-items: center;
+  }
 
   .left {
     display: flex;
@@ -28,7 +35,7 @@ const UserStyled = styled.div<{ chosen: boolean }>`
 type UserProps = TUser & {
   chosen?: boolean;
   onChoose?: Event<{ id: string }>;
-  didPay?: boolean;
+  canPay?: boolean;
   paid?: number;
 };
 
@@ -38,30 +45,56 @@ const User = ({
   photo,
   bank,
   onChoose,
-  didPay,
+  canPay,
   chosen = false,
 }: UserProps) => {
+  const [didPay, setDidPay] = useState(false);
+  const [sum, setSum] = useState<number | undefined>();
+
+  const handleChangePay = () => {
+    setDidPay((prev) => !prev);
+  };
+
+  const handleChangeSum = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSum(Number.parseFloat(e.target.value));
+    changePayer({ name, sum: Number.parseFloat(e.target.value) });
+  };
+
   const handleChoose = useCallback(() => {
     onChoose?.({ id });
   }, [id, onChoose]);
 
   return (
     <UserStyled onClick={handleChoose} chosen={chosen}>
-      <div className="left">
-        <Avatar photo={photo} chosen={chosen} />
-        <div>
-          <h4>{name}</h4>
+      <div className="user-basic">
+        <div className="left">
+          <Avatar photo={photo} chosen={chosen} />
+          <div>
+            <h4>{name}</h4>
+          </div>
         </div>
+        {canPay !== undefined && (
+          <Button
+            background={
+              didPay ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"
+            }
+            color="var(--tg-theme-text-color)"
+            active
+            width="fit-content"
+            onClick={handleChangePay}
+          >
+            Платил
+          </Button>
+        )}
       </div>
-      {didPay !== undefined && (
-        <Button
-          background={didPay ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"}
-          color="var(--tg-theme-text-color)"
-          active
-          width="fit-content"
-        >
-          Платил
-        </Button>
+      {didPay && (
+        <Input
+          width="100%"
+          type="number"
+          placeholder="Сколько заплатил?"
+          value={sum}
+          onChange={handleChangeSum}
+        />
       )}
     </UserStyled>
   );
