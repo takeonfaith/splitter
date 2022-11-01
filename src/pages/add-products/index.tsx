@@ -15,10 +15,7 @@ import { TProduct } from "../../entity/product/type";
 import ProductItem from "./product-item";
 
 const MessageBlock = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: auto;
   max-width: 350px;
   width: 100%;
   text-align: center;
