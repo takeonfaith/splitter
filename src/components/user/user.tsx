@@ -66,8 +66,8 @@ const User = ({
   }, [id, onChoose]);
 
   return (
-    <UserStyled onClick={handleChoose} chosen={chosen}>
-      <div className="user-basic">
+    <UserStyled chosen={chosen}>
+      <div className="user-basic" onClick={handleChoose}>
         <div className="left">
           <Avatar photo={photo} chosen={chosen} />
           <div>
