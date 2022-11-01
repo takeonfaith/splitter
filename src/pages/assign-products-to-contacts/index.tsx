@@ -92,8 +92,8 @@ const AssignProductsToContacts = () => {
 
   const handleSend = () => {
     const data = JSON.stringify(assignedProducts);
-    tg.close();
     tg.sendData(data);
+    tg.close();
   };
 
   return (
