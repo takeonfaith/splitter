@@ -16,7 +16,7 @@ import ProductItem from "./product-item";
 
 const MessageBlock = styled.div`
   margin: auto;
-  max-width: 350px;
+  max-width: 250px;
   width: 100%;
   text-align: center;
   background: var(--tg-theme-secondary-bg-color);

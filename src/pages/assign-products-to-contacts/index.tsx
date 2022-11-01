@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { User } from "../../components/user";
 import { useProducts } from "../../entity/product/model";
 import ProductItem from "../add-products/product-item";
@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { useContacts } from "../../entity/contacts/model";
 import { Button } from "../../common/button";
 import { TProduct } from "../../entity/product/type";
+import useTelegram from "../../hooks/use-telegram";
+import { Input } from "../../common/input";
 
 const AssignProductsToContactsStyled = styled.div`
   display: flex;
@@ -43,6 +45,7 @@ const AssignProductsToContactsStyled = styled.div`
 `;
 
 const AssignProductsToContacts = () => {
+  const { tg } = useTelegram();
   const { contacts, chosenContacts } = useContacts();
   const { products } = useProducts();
   const [currentContact, setCurrentContact] = useState(0);
@@ -56,6 +59,12 @@ const AssignProductsToContacts = () => {
   const currentContactData = contacts.find(
     (c) => c.id === chosenContacts[currentContact]
   );
+
+  useEffect(() => {
+    if (currentContact === chosenContacts.length - 1) {
+      tg.MainButton.show();
+    }
+  }, [chosenContacts.length, currentContact, tg.MainButton]);
 
   if (!currentContactData) return null;
 
@@ -94,6 +103,7 @@ const AssignProductsToContacts = () => {
         <User {...currentContactData} />
       </div>
       <div className="list-of-products">
+        <Input width="100%" placeholder="Поиск продуктов" />
         <div className="inner">
           {products.map((product) => {
             return (

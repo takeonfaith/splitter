@@ -54,9 +54,7 @@ const ProductItemStyled = styled(Block)<{ edit: boolean }>`
         margin-top: 10px;
 
         b {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          font-size: 0.9rem;
         }
 
         .info {
