@@ -34,6 +34,10 @@ const AssignProductsToContacts = () => {
     (c) => c.id === chosenContacts[currentContact]
   );
 
+  const handleNextContact = () => {
+    setCurrentContact((prev) => prev + 1);
+  };
+
   if (!currentContactData) return null;
 
   return (
@@ -46,7 +50,7 @@ const AssignProductsToContacts = () => {
           return <ProductItem {...product} key={product.id} size="sm" />;
         })}
       </div>
-      <Button color={""} background={""} active>
+      <Button color={""} background={""} active onClick={handleNextContact}>
         Следующий пользователь
       </Button>
     </AssignProductsToContactsStyled>

@@ -53,14 +53,16 @@ const User = ({
           <h4>{name}</h4>
         </div>
       </div>
-      <Button
-        background={didPay ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"}
-        color="var(--tg-theme-text-color)"
-        active
-        width="fit-content"
-      >
-        Платил
-      </Button>
+      {didPay !== undefined && (
+        <Button
+          background={didPay ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"}
+          color="var(--tg-theme-text-color)"
+          active
+          width="fit-content"
+        >
+          Платил
+        </Button>
+      )}
     </UserStyled>
   );
 };
