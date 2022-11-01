@@ -5,8 +5,14 @@ import { TProduct } from "../../entity/product/type";
 import { Input } from "../../common/input";
 import { Button } from "../../common/button";
 import { v4 as uuid } from "uuid";
-import { ChevronRight } from "react-feather";
+import { ChevronRight, Trash } from "react-feather";
 import { useNavigate } from "react-router-dom";
+import {
+  addProduct,
+  editProduct,
+  removeProduct,
+  useProducts,
+} from "../../entity/product/model";
 
 const AddProductsStyled = styled.div`
   display: flex;
@@ -17,6 +23,10 @@ const AddProductsStyled = styled.div`
   .list-of-products {
     height: 100%;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1px;
+    row-gap: 8px;
   }
 
   .bottom {
@@ -24,6 +34,8 @@ const AddProductsStyled = styled.div`
     flex-direction: column;
     row-gap: 8px;
     width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid var(--tg-theme-text-color);
 
     .inputs {
       display: flex;
@@ -40,12 +52,13 @@ const AddProductsStyled = styled.div`
 `;
 
 const AddProducts = () => {
-  const [addedProducts, setAddedProducts] = useState<TProduct[]>([]);
+  const { products } = useProducts();
+  const [edit, setEdit] = useState<string | null>(null);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState<number>(0);
-  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number | undefined>();
+  const [quantity, setQuantity] = useState<number | undefined>();
   const isActive = !!name && !!price && !!quantity;
-  const isNext = addedProducts.length >= 1;
+  const isNext = products.length >= 1;
   const navigate = useNavigate();
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,30 +74,69 @@ const AddProducts = () => {
   };
 
   const handleAddProduct = () => {
-    setAddedProducts((prev) => [
-      ...prev,
-      {
-        id: uuid(),
-        name,
-        price,
-        quantity,
-      } as TProduct,
-    ]);
+    addProduct({
+      id: uuid(),
+      name,
+      price,
+      quantity,
+    } as TProduct);
+    setName("");
+    setPrice(0);
+    setQuantity(0);
+  };
+
+  const editingStartHandle = (id: string) => {
+    const { name, price, quantity } = products.find((p) => p.id === id)!;
+    setEdit(id);
+    setName(name);
+    setPrice(price);
+    setQuantity(quantity);
+  };
+
+  const editHandle = () => {
+    setEdit(null);
+    if (edit && price && quantity) {
+      const newProduct = { id: edit, name, price, quantity } as TProduct;
+      editProduct({ id: edit, newProduct });
+    }
+    setName("");
+    setPrice(undefined);
+    setQuantity(undefined);
+  };
+
+  const handleRemove = () => {
+    removeProduct(edit as string);
   };
 
   const handleGoNext = () => {
-    navigate("/assign-product-to-contacts");
+    navigate("/assign-products-to-contacts");
+  };
+
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!!edit) {
+      return editHandle();
+    }
+
+    handleAddProduct();
   };
 
   return (
     <AddProductsStyled>
       <h2>Список продуктов</h2>
       <div className="list-of-products">
-        {addedProducts.map((product) => {
-          return <ProductItem {...product} key={product.id} />;
+        {products.map((product) => {
+          return (
+            <ProductItem
+              {...product}
+              key={product.id}
+              onEdit={editingStartHandle}
+            />
+          );
         })}
       </div>
-      <div className="bottom">
+      <form className="bottom" onSubmit={handleSubmit}>
         <div className="inputs">
           <Input
             placeholder="Название"
@@ -92,12 +144,14 @@ const AddProducts = () => {
             onChange={handleChangeName}
           />
           <Input
+            type="number"
             placeholder="Цена"
             width="130px"
             value={price}
             onChange={handleChangePrice}
           />
           <Input
+            type="number"
             placeholder="Кол-во"
             width="130px"
             value={quantity}
@@ -105,25 +159,50 @@ const AddProducts = () => {
           />
         </div>
         <div className="buttons-list">
-          <Button
-            color="var(--tg-theme-button-text-color)"
-            background="var(--tg-theme-button-color)"
-            active={isActive}
-            onClick={handleAddProduct}
-          >
-            Добавить
-          </Button>
-          <Button
-            color="var(--tg-theme-button-text-color)"
-            background="var(--tg-theme-button-color)"
-            active={isNext}
-            onClick={handleGoNext}
-            width="50px"
-          >
-            <ChevronRight />
-          </Button>
+          {!edit && (
+            <>
+              <Button
+                color="var(--tg-theme-button-text-color)"
+                background="var(--tg-theme-button-color)"
+                active={isActive}
+                type="submit"
+              >
+                Добавить
+              </Button>
+              <Button
+                color="var(--tg-theme-button-text-color)"
+                background="var(--tg-theme-button-color)"
+                active={isNext}
+                onClick={handleGoNext}
+                width="40px"
+              >
+                <ChevronRight />
+              </Button>
+            </>
+          )}
+          {!!edit && (
+            <>
+              <Button
+                color="var(--tg-theme-button-text-color)"
+                background="var(--tg-theme-button-color)"
+                active={isActive}
+                type="submit"
+              >
+                Изменить
+              </Button>
+              <Button
+                color="var(--tg-theme-button-text-color)"
+                background="var(--tg-theme-button-color)"
+                active
+                onClick={handleRemove}
+                width="40px"
+              >
+                <Trash />
+              </Button>
+            </>
+          )}
         </div>
-      </div>
+      </form>
     </AddProductsStyled>
   );
 };

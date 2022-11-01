@@ -8,9 +8,10 @@ const ButtonStyled = styled.button<{
   width?: string;
 }>`
   width: ${({ width }) => width ?? "100%"};
+  height: 40px;
   background: ${({ background }) => background};
   color: ${({ color }) => color};
-  padding: 12px;
+  padding: 0 12px;
   border-radius: 6px;
   outline: none;
   border: none;

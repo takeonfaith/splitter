@@ -21,7 +21,7 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
 const Input: FC<Props> = ({ width, ...restProps }) => {
   return (
     <InputStyled width={width}>
-      <input type="text" {...restProps} />
+      <input type={restProps.type ?? "text"} {...restProps} />
     </InputStyled>
   );
 };

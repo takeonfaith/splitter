@@ -16,6 +16,7 @@ const UserStyled = styled.div<{ chosen: boolean }>`
   align-items: center;
   box-shadow: 0 2px 3px #0000002d;
   column-gap: 8px;
+  color: var(--tg-theme-text-color);
 
   .left {
     display: flex;
@@ -67,7 +68,7 @@ const User = ({ id, name, photo, bank, chosen, onChoose, paid }: UserProps) => {
       </div>
       <Button
         background={paid ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"}
-        color="button_text_color"
+        color="var(--tg-theme-text-color)"
         active
         width="fit-content"
       >
