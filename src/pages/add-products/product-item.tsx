@@ -42,7 +42,7 @@ const ProductItemStyled = styled(Block)<{ edit: boolean }>`
   &.sm {
     flex-direction: column;
     height: fit-content;
-    width: calc(100% / 4 - 6px);
+    width: calc(100% / 3 - 6px);
     display: inline-flex;
 
     .left {
