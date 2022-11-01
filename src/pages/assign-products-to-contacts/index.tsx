@@ -93,7 +93,7 @@ const AssignProductsToContacts = () => {
     } else {
       newAssigned[currentContactData.name].push({
         product,
-        proportion: 1 / productsUsage[product.id] + 1,
+        proportion: 1 / (productsUsage[product.id] + 1),
       });
 
       setProductsUsage((prev) => {
