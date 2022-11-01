@@ -38,7 +38,7 @@ const $productsStore = createStore(DEFAULT_STORE)
   }))
   .on(removeProduct, (state, productId) => ({
     ...state,
-    products: state.products.filter((p) => p.id === productId),
+    products: state.products.filter((p) => p.id !== productId),
   }))
   .on(editProduct, (state, { id, newProduct }) => ({
     ...state,

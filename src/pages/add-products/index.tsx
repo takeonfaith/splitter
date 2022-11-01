@@ -116,6 +116,7 @@ const AddProducts = () => {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("handleSubmit");
 
     if (!!edit) {
       return editHandle();
@@ -198,6 +199,7 @@ const AddProducts = () => {
                 active
                 onClick={handleRemove}
                 width="40px"
+                type="button"
               >
                 <Trash />
               </Button>

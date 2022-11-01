@@ -12,6 +12,19 @@ const ProductItemStyled = styled(Block)`
   column-gap: 8px;
   animation: fadeIn 0.2s forwards;
 
+  .text {
+    display: flex;
+    flex-direction: column;
+
+    .info {
+      font-size: 0.85rem;
+      margin-top: 4px;
+      color: var(--tg-theme-hint-color);
+      display: flex;
+      column-gap: 8px;
+    }
+  }
+
   @keyframes fadeIn {
     0% {
       opacity: 0;
@@ -35,9 +48,18 @@ const ProductItem = ({ id, name, price, quantity, onEdit }: Props) => {
 
   return (
     <ProductItemStyled>
-      <h4>{name}</h4>
-      <span>{price}</span>
-      <span>{quantity}</span>
+      <div className="text">
+        <h4>{name}</h4>
+        <div className="info">
+          <div>
+            Цена: <span>{price}</span> руб.
+          </div>
+          •
+          <div>
+            Количество: <span>{quantity}</span> шт.
+          </div>
+        </div>
+      </div>
       <Button
         color={"var(--tg-theme-text-color)"}
         background={"var(--tg-theme-secondary-bg-color)"}

@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import useTelegram from "./hooks/use-telegram";
 import AddContacts from "./pages/add-contacts";
 import AddProducts from "./pages/add-products";
 import AssignProductsToContacts from "./pages/assign-products-to-contacts";
@@ -21,11 +20,8 @@ const AppStyled = styled.div`
 `;
 
 function App() {
-  const { tg } = useTelegram();
-
   return (
     <AppStyled>
-      {<p>{JSON.stringify(tg.showPopup)}</p>}
       <Routes>
         <Route path="/add-contacts" element={<AddContacts />} />
         <Route path="/choose-contacts" element={<ChooseContacts />} />

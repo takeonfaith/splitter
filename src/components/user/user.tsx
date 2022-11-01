@@ -47,10 +47,22 @@ const UserStyled = styled.div<{ chosen: boolean }>`
 type UserProps = TUser & {
   chosen: boolean;
   onChoose: Event<{ id: string }>;
-  paid: boolean;
+  didPay: boolean;
+  paid: number;
+  onPay: Event<{ id: string; paid: number }>;
 };
 
-const User = ({ id, name, photo, bank, chosen, onChoose, paid }: UserProps) => {
+const User = ({
+  id,
+  name,
+  photo,
+  bank,
+  chosen,
+  onChoose,
+  didPay,
+  paid,
+  onPay,
+}: UserProps) => {
   const handleChoose = useCallback(() => {
     onChoose({ id });
   }, [id, onChoose]);
@@ -67,7 +79,7 @@ const User = ({ id, name, photo, bank, chosen, onChoose, paid }: UserProps) => {
         </div>
       </div>
       <Button
-        background={paid ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"}
+        background={didPay ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"}
         color="var(--tg-theme-text-color)"
         active
         width="fit-content"
