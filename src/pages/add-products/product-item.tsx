@@ -6,16 +6,18 @@ import { TProduct } from "../../entity/product/type";
 import { Edit2 } from "react-feather";
 import Avatar from "../../components/user/avatar";
 
-const ProductItemStyled = styled(Block)<{ chosen: boolean }>`
+const ProductItemStyled = styled(Block)<{ edit: boolean }>`
   display: flex;
   align-items: center;
+  cursor: pointer;
+  user-select: none;
 
   &.md {
     justify-content: space-between;
     column-gap: 8px;
     animation: fadeIn 0.2s forwards;
-    border: ${({ chosen }) =>
-      chosen ? "2px solid var(--tg-theme-button-color)" : "none"};
+    border: ${({ edit }) =>
+      edit ? "2px solid var(--tg-theme-button-color)" : "none"};
 
     .left {
       display: flex;
@@ -40,15 +42,26 @@ const ProductItemStyled = styled(Block)<{ chosen: boolean }>`
   &.sm {
     flex-direction: column;
     height: fit-content;
-    width: calc(100% / 3 - 16px);
-    min-width: calc(100% / 6 - 72px);
+    width: calc(100% / 4 - 6px);
     display: inline-flex;
 
-    .text {
-      margin-top: 10px;
+    .left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      .info {
-        display: none;
+      .text {
+        margin-top: 10px;
+
+        b {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .info {
+          display: none;
+        }
       }
     }
 
@@ -87,8 +100,10 @@ const icons = {
 };
 
 type Props = TProduct & {
+  edit?: boolean;
   chosen?: boolean;
   onEdit?: (id: string) => void;
+  onChoose?: (product: TProduct) => void;
   size?: "sm" | "md";
 };
 
@@ -98,19 +113,32 @@ const ProductItem = ({
   price,
   quantity,
   onEdit,
+  onChoose,
   size = "md",
+  edit = false,
   chosen = false,
 }: Props) => {
   const handleEdit = () => {
     onEdit?.(id);
   };
 
+  const handleChoose = () => {
+    onChoose?.({ id, name, price, quantity } as TProduct);
+  };
+
   return (
-    <ProductItemStyled chosen={chosen} className={"product-item " + size}>
+    <ProductItemStyled
+      edit={edit}
+      className={"product-item " + size}
+      onClick={handleChoose}
+    >
       <div className="left">
-        <Avatar icon={icons[name.trim() as keyof typeof icons] ?? "📦"} />
+        <Avatar
+          icon={icons[name.trim() as keyof typeof icons] ?? "📦"}
+          chosen={chosen}
+        />
         <div className="text">
-          <h4>{name}</h4>
+          <b>{name}</b>
           <div className="info">
             <div>
               Цена: <span>{price}</span> руб.

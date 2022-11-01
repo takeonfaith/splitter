@@ -5,7 +5,7 @@ import { Check as CheckIcon } from "react-feather";
 const CheckStyled = styled.div<{ chosen: boolean }>`
   width: 20px;
   height: 20px;
-  transform: ${({ chosen }) => (chosen ? "scale(1)" : "scale(0.95)")};
+  transform: ${({ chosen }) => (chosen ? "scale(1)" : "scale(0.9)")};
   opacity: ${({ chosen }) => (chosen ? "1" : "0")};
   transition: 0.2s transform, 0.2s opacity;
   border-radius: 100%;
@@ -15,7 +15,7 @@ const CheckStyled = styled.div<{ chosen: boolean }>`
   position: absolute;
   bottom: -2px;
   right: -2px;
-  background: var(--tg-theme-button-color);
+  background: red;
   border: 2px solid var(--tg-theme-bg-color);
 
   svg {
