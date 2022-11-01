@@ -1,5 +1,11 @@
 export {};
 
+type PopupButton = {
+  id: string;
+  type: string;
+  text: string;
+};
+
 declare global {
   interface Window {
     Telegram: {
@@ -21,6 +27,11 @@ declare global {
         onEvent: (event: string, callback: () => void) => void;
         offEvent: (event: string, callback: () => void) => void;
         sendData: (data: string) => void;
+        showPopup: (
+          title: string,
+          message: string,
+          buttons: PopupButton[]
+        ) => void;
       };
     };
   }

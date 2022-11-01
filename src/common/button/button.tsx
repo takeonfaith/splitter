@@ -8,6 +8,7 @@ const ButtonStyled = styled.button<{
   width?: string;
 }>`
   width: ${({ width }) => width ?? "100%"};
+  min-height: 40px;
   height: 40px;
   background: ${({ background }) => background};
   color: ${({ color }) => color};
@@ -22,6 +23,7 @@ const ButtonStyled = styled.button<{
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.2s;
 `;
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {

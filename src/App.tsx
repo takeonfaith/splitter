@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
+import useTelegram from "./hooks/use-telegram";
 import AddContacts from "./pages/add-contacts";
 import AddProducts from "./pages/add-products";
 import AssignProductsToContacts from "./pages/assign-products-to-contacts";
@@ -20,6 +22,15 @@ const AppStyled = styled.div`
 `;
 
 function App() {
+  const { showPopup } = useTelegram();
+
+  useEffect(() => {
+    showPopup("Test", "Тестовое сообщение", [
+      { id: "1", text: "Да", type: "ok" },
+      { id: "2", text: "Нет", type: "close" },
+    ]);
+  }, [showPopup]);
+
   return (
     <AppStyled>
       <Routes>

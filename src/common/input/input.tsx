@@ -11,6 +11,7 @@ const InputStyled = styled.div<{ width?: string }>`
     outline: none;
     border-radius: 6px;
     background: var(--tg-theme-secondary-bg-color);
+    color: var(--tg-theme-text-color);
   }
 
   input::placeholder {
