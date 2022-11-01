@@ -72,6 +72,10 @@ const AddProducts = () => {
   const nameRef = useRef<HTMLInputElement | null>(null);
   const isActive = !!name && !!price && !!quantity;
   const isNext = products.length >= 1;
+  const productsSum = products.reduce((acc, product) => {
+    acc += product.price * product.quantity;
+    return acc;
+  }, 0);
   const navigate = useNavigate();
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,6 +167,7 @@ const AddProducts = () => {
             />
           );
         })}
+        <span>Итого: {productsSum} руб.</span>
       </div>
       <form className="bottom" onSubmit={handleSubmit}>
         <div className="inputs">
