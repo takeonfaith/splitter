@@ -25,7 +25,7 @@ function App() {
 
   return (
     <AppStyled>
-      {<h1>{JSON.stringify(tg)}</h1>}
+      {<p>{JSON.stringify(tg)}</p>}
       <Routes>
         <Route path="/add-contacts" element={<AddContacts />} />
         <Route path="/choose-contacts" element={<ChooseContacts />} />
