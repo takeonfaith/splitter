@@ -18,6 +18,7 @@ const UserStyled = styled.div<{ chosen: boolean }>`
   column-gap: 8px;
   color: var(--tg-theme-text-color);
   flex-direction: column;
+  row-gap: 8px;
 
   .user-basic {
     display: flex;
@@ -86,6 +87,21 @@ const User = ({
             Платил
           </Button>
         )}
+        <Button
+          background={didPay ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"}
+          color="var(--tg-theme-text-color)"
+          active
+          width="fit-content"
+          onClick={() => {
+            const contacts = JSON.parse(
+              localStorage.getItem("contacts") ?? "[]"
+            ) as TUser[];
+            const newContacts = contacts.filter((el) => el.id !== id);
+            localStorage.setItem("contacts", JSON.stringify(newContacts));
+          }}
+        >
+          Удалть
+        </Button>
       </div>
       {didPay && (
         <Input
