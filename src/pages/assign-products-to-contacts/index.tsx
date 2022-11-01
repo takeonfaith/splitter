@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import styled from "styled-components";
 import { Button } from "../../common/button";
 import { Input } from "../../common/input";
@@ -66,6 +66,41 @@ const AssignProductsToContacts = () => {
     (c) => c.id === chosenContacts[currentContact]
   );
 
+  console.log(productsUsage);
+
+  const handleChooseProduct = useCallback(
+    (product: TProduct) => {
+      const alreadyAssigned = !!assignedProducts[
+        currentContactData?.name ?? ""
+      ].find((el) => el.product.id === product.id);
+      let newAssigned = assignedProducts;
+      console.log("handleChooseProduct");
+
+      if (alreadyAssigned) {
+        newAssigned[currentContactData?.name ?? ""] = newAssigned[
+          currentContactData?.name ?? ""
+        ].filter((el) => el.product.id !== product.id);
+        setProductsUsage({
+          ...productsUsage,
+          [product.id]: productsUsage[product.id] - 1,
+        });
+      } else {
+        newAssigned[currentContactData?.name ?? ""].push({
+          product,
+          proportion: 1,
+        });
+
+        setProductsUsage({
+          ...productsUsage,
+          [product.id]: productsUsage[product.id] + 1,
+        });
+      }
+
+      setAssignedProducts({ ...newAssigned });
+    },
+    [assignedProducts, currentContactData?.name, productsUsage]
+  );
+
   if (!currentContactData) return null;
 
   const handleNextContact = () => {
@@ -76,37 +111,19 @@ const AssignProductsToContacts = () => {
     setCurrentContact((prev) => prev - 1);
   };
 
-  const handleChooseProduct = (product: TProduct) => {
-    const alreadyAssigned = !!assignedProducts[currentContactData.name].find(
-      (el) => el.product.id === product.id
-    );
-    let newAssigned = assignedProducts;
-
-    if (alreadyAssigned) {
-      newAssigned[currentContactData.name] = newAssigned[
-        currentContactData.name
-      ].filter((el) => el.product.id !== product.id);
-      setProductsUsage((prev) => {
-        prev[product.id] = prev[product.id] - 1;
-        return { ...prev };
-      });
-    } else {
-      newAssigned[currentContactData.name].push({
-        product,
-        proportion: 1 / (productsUsage[product.id] + 1),
-      });
-
-      setProductsUsage((prev) => {
-        prev[product.id] = prev[product.id] + 1;
-        return { ...prev };
-      });
-    }
-
-    setAssignedProducts({ ...newAssigned });
-  };
-
   const handleSend = () => {
-    const data = JSON.stringify({ payers, list: assignedProducts });
+    const normalizedAssigned = assignedProducts;
+    Object.keys(normalizedAssigned).forEach((name) => {
+      normalizedAssigned[name].forEach((p) => {
+        console.log(p.product.name, productsUsage[p.product.id]);
+
+        const quantity = productsUsage[p.product.id];
+        p.proportion = 1 / quantity;
+      });
+    });
+    console.log(normalizedAssigned);
+
+    const data = JSON.stringify({ payers, list: normalizedAssigned });
     tg.sendData(data);
     tg.close();
   };
