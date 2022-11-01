@@ -15,6 +15,12 @@ const AssignProductsToContactsStyled = styled.div`
   max-width: 450px;
   row-gap: 8px;
 
+  .top {
+    h2 {
+      margin-bottom: 8px;
+    }
+  }
+
   .list-of-products {
     height: 100%;
 
@@ -84,6 +90,7 @@ const AssignProductsToContacts = () => {
   return (
     <AssignProductsToContactsStyled>
       <div className="top">
+        <h2>Выберите товары</h2>
         <User {...currentContactData} />
       </div>
       <div className="list-of-products">

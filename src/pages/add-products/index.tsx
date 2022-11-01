@@ -25,6 +25,8 @@ const MessageBlock = styled.div`
   background: var(--tg-theme-secondary-bg-color);
   color: var(--tg-theme-hint-color);
   width: fit-content;
+  padding: 10px;
+  border-radius: 5px;
 `;
 
 const AddProductsStyled = styled.div`
@@ -148,12 +150,12 @@ const AddProducts = () => {
   return (
     <AddProductsStyled>
       <h2>Список продуктов</h2>
-      {products.length === 0 && (
-        <MessageBlock>
-          Введине название товара, его цену и количество
-        </MessageBlock>
-      )}
       <div className="list-of-products">
+        {products.length === 0 && (
+          <MessageBlock>
+            Введине название товара, его цену и количество
+          </MessageBlock>
+        )}
         {products.map((product) => {
           return (
             <ProductItem
