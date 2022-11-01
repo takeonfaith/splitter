@@ -114,12 +114,16 @@ const AssignProductsToContacts = () => {
   const handleSend = () => {
     const normalizedAssigned = assignedProducts;
     Object.keys(normalizedAssigned).forEach((name) => {
-      normalizedAssigned[name].forEach((p) => {
-        console.log(p.product.name, productsUsage[p.product.id]);
+      if (normalizedAssigned[name].length === 0)
+        delete normalizedAssigned[name];
+      else {
+        normalizedAssigned[name].forEach((p) => {
+          console.log(p.product.name, productsUsage[p.product.id]);
 
-        const quantity = productsUsage[p.product.id];
-        p.proportion = 1 / quantity;
-      });
+          const quantity = productsUsage[p.product.id];
+          p.proportion = 1 / quantity;
+        });
+      }
     });
     console.log(normalizedAssigned);
 
