@@ -46,7 +46,7 @@ const AssignProductsToContactsStyled = styled.div`
 
 const AssignProductsToContacts = () => {
   const { tg } = useTelegram();
-  const { contacts, chosenContacts } = useContacts();
+  const { contacts, chosenContacts, payers } = useContacts();
   const { products } = useProducts();
   const [currentContact, setCurrentContact] = useState(0);
   const [assignedProducts, setAssignedProducts] = useState(
@@ -91,7 +91,7 @@ const AssignProductsToContacts = () => {
   };
 
   const handleSend = () => {
-    const data = JSON.stringify(assignedProducts);
+    const data = JSON.stringify({ payers, list: assignedProducts });
     tg.sendData(data);
     tg.close();
   };

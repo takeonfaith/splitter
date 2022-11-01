@@ -22,7 +22,9 @@ const ContactList = () => {
         return (
           <User
             paid={0}
-            didPay={!!payers.find((payer) => payer.id === contact.id)}
+            didPay={
+              !!Object.keys(payers).find((payer) => payer === contact.name)
+            }
             key={contact.id}
             {...contact}
             chosen={chosenContacts.includes(contact.id)}
