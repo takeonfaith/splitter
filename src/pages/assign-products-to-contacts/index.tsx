@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { User } from "../../components/user";
-import { useProducts } from "../../entity/product/model";
-import ProductItem from "../add-products/product-item";
+import { useState } from "react";
 import styled from "styled-components";
-import { useContacts } from "../../entity/contacts/model";
 import { Button } from "../../common/button";
+import { Input } from "../../common/input";
+import { User } from "../../components/user";
+import { useContacts } from "../../entity/contacts/model";
+import { useProducts } from "../../entity/product/model";
 import { TProduct } from "../../entity/product/type";
 import useTelegram from "../../hooks/use-telegram";
-import { Input } from "../../common/input";
+import ProductItem from "../add-products/product-item";
 
 const AssignProductsToContactsStyled = styled.div`
   display: flex;
@@ -60,12 +60,6 @@ const AssignProductsToContacts = () => {
     (c) => c.id === chosenContacts[currentContact]
   );
 
-  useEffect(() => {
-    if (currentContact === chosenContacts.length - 1) {
-      tg.MainButton.show();
-    }
-  }, [chosenContacts.length, currentContact, tg.MainButton]);
-
   if (!currentContactData) return null;
 
   const handleNextContact = () => {
@@ -94,6 +88,12 @@ const AssignProductsToContacts = () => {
     }
 
     setAssignedProducts({ ...newAssigned });
+  };
+
+  const handleSend = () => {
+    const data = JSON.stringify(assignedProducts);
+    tg.close();
+    tg.sendData(data);
   };
 
   return (
@@ -133,14 +133,26 @@ const AssignProductsToContacts = () => {
             Назад
           </Button>
         )}
-        <Button
-          color={"var(--tg-theme-button-text-color)"}
-          background={"var(--tg-theme-button-color)"}
-          active
-          onClick={handleNextContact}
-        >
-          Далее
-        </Button>
+        {currentContact < chosenContacts.length - 1 && (
+          <Button
+            color={"var(--tg-theme-button-text-color)"}
+            background={"var(--tg-theme-button-color)"}
+            active
+            onClick={handleNextContact}
+          >
+            Далее
+          </Button>
+        )}
+        {currentContact === chosenContacts.length - 1 && (
+          <Button
+            color={"var(--tg-theme-button-text-color)"}
+            background={"var(--tg-theme-button-color)"}
+            active
+            onClick={handleSend}
+          >
+            Рассчитать
+          </Button>
+        )}
       </div>
     </AssignProductsToContactsStyled>
   );
