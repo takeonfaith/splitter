@@ -3,6 +3,7 @@ import { ChevronRight, Trash } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
+import { Block } from "../../common/block";
 import { Button } from "../../common/button";
 import { Input } from "../../common/input";
 import {
@@ -13,6 +14,13 @@ import {
 } from "../../entity/product/model";
 import { TProduct } from "../../entity/product/type";
 import ProductItem from "./product-item";
+
+const MessageBlock = styled(Block)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 const AddProductsStyled = styled.div`
   display: flex;
@@ -135,6 +143,15 @@ const AddProducts = () => {
   return (
     <AddProductsStyled>
       <h2>Список продуктов</h2>
+      {products.length === 0 && (
+        <MessageBlock
+          background="var(--tg-theme-secondary-bg-color)"
+          color="var(--tg-theme-hint-color)"
+          width="fit-content"
+        >
+          Введине название товара, его цену и количество
+        </MessageBlock>
+      )}
       <div className="list-of-products">
         {products.map((product) => {
           return (

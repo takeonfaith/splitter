@@ -26,9 +26,9 @@ const UserStyled = styled.div<{ chosen: boolean }>`
 `;
 
 type UserProps = TUser & {
-  chosen: boolean;
-  onChoose: Event<{ id: string }>;
-  didPay: boolean;
+  chosen?: boolean;
+  onChoose?: Event<{ id: string }>;
+  didPay?: boolean;
   paid?: number;
 };
 
@@ -37,12 +37,12 @@ const User = ({
   name,
   photo,
   bank,
-  chosen,
   onChoose,
   didPay,
+  chosen = false,
 }: UserProps) => {
   const handleChoose = useCallback(() => {
-    onChoose({ id });
+    onChoose?.({ id });
   }, [id, onChoose]);
 
   return (

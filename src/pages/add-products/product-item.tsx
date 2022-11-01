@@ -39,6 +39,10 @@ const ProductItemStyled = styled(Block)<{ chosen: boolean }>`
 
   &.sm {
     flex-direction: column;
+    height: fit-content;
+    width: calc(100% / 3 - 16px);
+    min-width: calc(100% / 6 - 72px);
+    display: inline-flex;
 
     .text {
       margin-top: 10px;
@@ -84,7 +88,7 @@ const icons = {
 
 type Props = TProduct & {
   chosen?: boolean;
-  onEdit: (id: string) => void;
+  onEdit?: (id: string) => void;
   size?: "sm" | "md";
 };
 
@@ -98,7 +102,7 @@ const ProductItem = ({
   chosen = false,
 }: Props) => {
   const handleEdit = () => {
-    onEdit(id);
+    onEdit?.(id);
   };
 
   return (

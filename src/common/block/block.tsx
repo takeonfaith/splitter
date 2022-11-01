@@ -1,18 +1,16 @@
-import React, { FC } from "react";
 import styled from "styled-components";
 
-const BlockStyled = styled.div`
+const BlockStyled = styled.div<{
+  color?: string;
+  background?: string;
+  width?: string;
+}>`
   padding: 12px;
   border-radius: 6px;
   box-shadow: 0 1px 3px #00000030;
-  background: var(--tg-theme-bg-color);
+  width: ${({ width }) => width ?? "100%"};
+  color: ${({ color }) => color ?? "var(--tg-theme-text-color)"};
+  background: ${({ background }) => background ?? "var(--tg-theme-bg-color)"};
 `;
 
-const Block: FC<React.HTMLAttributes<HTMLDivElement>> = ({
-  children,
-  ...restProps
-}) => {
-  return <BlockStyled {...restProps}>{children}</BlockStyled>;
-};
-
-export default Block;
+export default BlockStyled;
