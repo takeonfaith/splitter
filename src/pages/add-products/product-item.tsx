@@ -10,7 +10,7 @@ const ProductItemStyled = styled(Block)`
   align-items: center;
   justify-content: space-between;
   column-gap: 8px;
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.2s forwards;
 
   @keyframes fadeIn {
     0% {

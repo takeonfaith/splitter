@@ -10,7 +10,11 @@ const InputStyled = styled.div<{ width?: string }>`
     border: none;
     outline: none;
     border-radius: 6px;
-    background: #e0e0e0;
+    background: var(--tg-theme-secondary-bg-color);
+  }
+
+  input::placeholder {
+    color: var(--tg-theme-hint-color);
   }
 `;
 

@@ -10,7 +10,7 @@ const AvatarStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e0e0e0;
+  background-color: var(--tg-theme-secondary-bg-color);
 
   svg {
     width: 20px;

@@ -35,7 +35,7 @@ const AddProductsStyled = styled.div`
     row-gap: 8px;
     width: 100%;
     padding-top: 8px;
-    border-top: 1px solid var(--tg-theme-text-color);
+    border-top: 1px solid var(--tg-theme-hint-color);
 
     .inputs {
       display: flex;
@@ -74,15 +74,17 @@ const AddProducts = () => {
   };
 
   const handleAddProduct = () => {
-    addProduct({
-      id: uuid(),
-      name,
-      price,
-      quantity,
-    } as TProduct);
-    setName("");
-    setPrice(0);
-    setQuantity(0);
+    if (isActive) {
+      addProduct({
+        id: uuid(),
+        name,
+        price,
+        quantity,
+      } as TProduct);
+      setName("");
+      setPrice(undefined);
+      setQuantity(undefined);
+    }
   };
 
   const editingStartHandle = (id: string) => {
