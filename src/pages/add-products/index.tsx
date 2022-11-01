@@ -73,6 +73,12 @@ const AddProducts = () => {
     setQuantity(Number.parseInt(e.target.value));
   };
 
+  const resetFields = () => {
+    setName("");
+    setPrice(undefined);
+    setQuantity(undefined);
+  };
+
   const handleAddProduct = () => {
     if (isActive) {
       addProduct({
@@ -81,10 +87,8 @@ const AddProducts = () => {
         price,
         quantity,
       } as TProduct);
-      setName("");
-      setPrice(undefined);
-      setQuantity(undefined);
     }
+    resetFields();
   };
 
   const editingStartHandle = (id: string) => {
@@ -101,13 +105,13 @@ const AddProducts = () => {
       const newProduct = { id: edit, name, price, quantity } as TProduct;
       editProduct({ id: edit, newProduct });
     }
-    setName("");
-    setPrice(undefined);
-    setQuantity(undefined);
+    resetFields();
   };
 
   const handleRemove = () => {
     removeProduct(edit as string);
+    resetFields();
+    setEdit(null);
   };
 
   const handleGoNext = () => {
@@ -134,6 +138,7 @@ const AddProducts = () => {
             <ProductItem
               {...product}
               key={product.id}
+              editing={edit === product.id}
               onEdit={editingStartHandle}
             />
           );
@@ -194,8 +199,8 @@ const AddProducts = () => {
                 Изменить
               </Button>
               <Button
-                color="var(--tg-theme-button-text-color)"
-                background="var(--tg-theme-button-color)"
+                color="#fff"
+                background="#e53935"
                 active
                 onClick={handleRemove}
                 width="40px"

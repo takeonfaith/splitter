@@ -49,7 +49,6 @@ type UserProps = TUser & {
   onChoose: Event<{ id: string }>;
   didPay: boolean;
   paid?: number;
-  onPay?: Event<{ id: string; paid: number }>;
 };
 
 const User = ({
@@ -60,8 +59,6 @@ const User = ({
   chosen,
   onChoose,
   didPay,
-  paid,
-  onPay,
 }: UserProps) => {
   const handleChoose = useCallback(() => {
     onChoose({ id });

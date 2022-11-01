@@ -25,11 +25,12 @@ const AvatarStyled = styled.div`
 `;
 
 type AvatarProps = {
-  photo: string;
+  icon?: React.ReactNode | string;
+  photo?: string;
   alt?: string;
 };
 
-const Avatar = ({ photo, alt }: AvatarProps) => {
+const Avatar = ({ photo, alt, icon }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
 
   const handleLoad = useCallback(() => {
@@ -40,7 +41,7 @@ const Avatar = ({ photo, alt }: AvatarProps) => {
       {loaded ? (
         <img src={photo} alt={alt ?? "photo"} onLoad={handleLoad} />
       ) : (
-        <User />
+        icon ?? <User />
       )}
     </AvatarStyled>
   );

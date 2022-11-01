@@ -4,24 +4,33 @@ import { Block } from "../../common/block";
 import { Button } from "../../common/button";
 import { TProduct } from "../../entity/product/type";
 import { Edit2 } from "react-feather";
+import Avatar from "../../components/user/avatar";
 
-const ProductItemStyled = styled(Block)`
+const ProductItemStyled = styled(Block)<{ editing: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   column-gap: 8px;
   animation: fadeIn 0.2s forwards;
+  border: ${({ editing }) =>
+    editing ? "2px solid var(--tg-theme-button-color)" : "none"};
 
-  .text {
+  .left {
     display: flex;
-    flex-direction: column;
+    column-gap: 8px;
+    align-items: center;
 
-    .info {
-      font-size: 0.85rem;
-      margin-top: 4px;
-      color: var(--tg-theme-hint-color);
+    .text {
       display: flex;
-      column-gap: 8px;
+      flex-direction: column;
+
+      .info {
+        font-size: 0.85rem;
+        margin-top: 4px;
+        color: var(--tg-theme-hint-color);
+        display: flex;
+        column-gap: 8px;
+      }
     }
   }
 
@@ -37,26 +46,43 @@ const ProductItemStyled = styled(Block)`
   }
 `;
 
+const icons = {
+  Пицца: "🍕",
+  Бургер: "🍔",
+  Кола: "🥤",
+};
+
 type Props = TProduct & {
+  editing?: boolean;
   onEdit: (id: string) => void;
 };
 
-const ProductItem = ({ id, name, price, quantity, onEdit }: Props) => {
+const ProductItem = ({
+  id,
+  name,
+  price,
+  quantity,
+  onEdit,
+  editing = false,
+}: Props) => {
   const handleEdit = () => {
     onEdit(id);
   };
 
   return (
-    <ProductItemStyled>
-      <div className="text">
-        <h4>{name}</h4>
-        <div className="info">
-          <div>
-            Цена: <span>{price}</span> руб.
-          </div>
-          •
-          <div>
-            Количество: <span>{quantity}</span> шт.
+    <ProductItemStyled editing={editing}>
+      <div className="left">
+        <Avatar icon={icons[name as keyof typeof icons] ?? "📦"} />
+        <div className="text">
+          <h4>{name}</h4>
+          <div className="info">
+            <div>
+              Цена: <span>{price}</span> руб.
+            </div>
+            •
+            <div>
+              Количество: <span>{quantity}</span> шт.
+            </div>
           </div>
         </div>
       </div>
