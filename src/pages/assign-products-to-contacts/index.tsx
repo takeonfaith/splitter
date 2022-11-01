@@ -56,7 +56,8 @@ const AssignProductsToContacts = () => {
   );
   const [currentContact, setCurrentContact] = useState(0);
   const [assignedProducts, setAssignedProducts] = useState(
-    contacts.reduce((acc, contact) => {
+    chosenContacts.reduce((acc, id) => {
+      const contact = contacts.find((c) => c.id === id)!;
       acc[contact.name] = [];
       return acc;
     }, {} as Record<string, { product: TProduct; proportion: number }[]>)
@@ -114,16 +115,12 @@ const AssignProductsToContacts = () => {
   const handleSend = () => {
     const normalizedAssigned = assignedProducts;
     Object.keys(normalizedAssigned).forEach((name) => {
-      if (normalizedAssigned[name].length === 0)
-        delete normalizedAssigned[name];
-      else {
-        normalizedAssigned[name].forEach((p) => {
-          console.log(p.product.name, productsUsage[p.product.id]);
+      normalizedAssigned[name].forEach((p) => {
+        console.log(p.product.name, productsUsage[p.product.id]);
 
-          const quantity = productsUsage[p.product.id];
-          p.proportion = 1 / quantity;
-        });
-      }
+        const quantity = productsUsage[p.product.id];
+        p.proportion = 1 / quantity;
+      });
     });
     console.log(normalizedAssigned);
 
