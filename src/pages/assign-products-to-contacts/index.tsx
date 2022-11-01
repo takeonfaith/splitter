@@ -46,8 +46,14 @@ const AssignProductsToContactsStyled = styled.div`
 
 const AssignProductsToContacts = () => {
   const { tg } = useTelegram();
-  const { contacts, chosenContacts, payers } = useContacts();
   const { products } = useProducts();
+  const { contacts, chosenContacts, payers } = useContacts();
+  const [productsUsage, setProductsUsage] = useState(
+    products.reduce((acc, el) => {
+      acc[el.id] = 0;
+      return acc;
+    }, {} as Record<string, number>)
+  );
   const [currentContact, setCurrentContact] = useState(0);
   const [assignedProducts, setAssignedProducts] = useState(
     contacts.reduce((acc, contact) => {
@@ -80,10 +86,19 @@ const AssignProductsToContacts = () => {
       newAssigned[currentContactData.name] = newAssigned[
         currentContactData.name
       ].filter((el) => el.product.id !== product.id);
+      setProductsUsage((prev) => {
+        prev[product.id] = prev[product.id] - 1;
+        return { ...prev };
+      });
     } else {
       newAssigned[currentContactData.name].push({
         product,
-        proportion: 1 / chosenContacts.length,
+        proportion: 1 / productsUsage[product.id] + 1,
+      });
+
+      setProductsUsage((prev) => {
+        prev[product.id] = prev[product.id] + 1;
+        return { ...prev };
       });
     }
 
