@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Button } from "../../common/button";
 import { Input } from "../../common/input";
 import { TUser } from "../../entity/contacts";
-import { changePayer } from "../../entity/contacts/model";
+import { changePayer, deletePayer } from "../../entity/contacts/model";
 import Avatar from "./avatar";
 
 const UserStyled = styled.div<{ chosen: boolean }>`
@@ -52,7 +52,20 @@ const User = ({
   const [didPay, setDidPay] = useState(false);
   const [sum, setSum] = useState<number | undefined>();
 
-  const handleChangePay = () => {
+  const handleChoose = useCallback(() => {
+    onChoose?.({ id });
+  }, [id, onChoose]);
+
+  const handleChangePay = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    if (didPay) {
+      setSum(0);
+      deletePayer({ name });
+    } else {
+      if (!chosen) handleChoose();
+    }
     setDidPay((prev) => !prev);
   };
 
@@ -60,10 +73,6 @@ const User = ({
     setSum(Number.parseFloat(e.target.value));
     changePayer({ name, sum: Number.parseFloat(e.target.value) });
   };
-
-  const handleChoose = useCallback(() => {
-    onChoose?.({ id });
-  }, [id, onChoose]);
 
   return (
     <UserStyled chosen={chosen}>
@@ -79,7 +88,7 @@ const User = ({
             background={
               didPay ? "#388e3c" : "var(--tg-theme-secondary-bg-color)"
             }
-            color="var(--tg-theme-text-color)"
+            color={didPay ? "#fff" : "var(--tg-theme-text-color)"}
             active
             width="fit-content"
             onClick={handleChangePay}

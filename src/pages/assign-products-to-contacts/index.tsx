@@ -35,6 +35,7 @@ const AssignProductsToContactsStyled = styled.div`
       padding: 2px;
       flex-wrap: wrap;
       gap: 8px;
+      margin-top: 6px;
     }
   }
 
@@ -103,7 +104,7 @@ const AssignProductsToContacts = () => {
     [assignedProducts, currentContactData?.name, productsUsage]
   );
 
-  if (!currentContactData) return null;
+  if (!currentContactData) return <h2>Контакты не были выбраны</h2>;
 
   const handleNextContact = () => {
     setCurrentContact((prev) => prev + 1);

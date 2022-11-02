@@ -27,7 +27,12 @@ const ChooseContactsStyled = styled.div`
 
 const ChooseContacts = () => {
   const { chosenContacts, payers } = useContacts();
-  const isActive = chosenContacts.length >= 2 && Object.keys(payers).length > 0;
+  const isActive =
+    chosenContacts.length >= 2 &&
+    Object.keys(payers).length > 0 &&
+    !Object.values(payers).includes(0);
+  console.log(payers);
+
   const navigate = useNavigate();
 
   return (

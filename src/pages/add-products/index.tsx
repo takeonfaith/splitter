@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { Button } from "../../common/button";
 import { Input } from "../../common/input";
+import { useContacts } from "../../entity/contacts/model";
 import {
   addProduct,
   editProduct,
@@ -49,7 +50,12 @@ const AddProductsStyled = styled.div`
     padding-top: 8px;
     border-top: 1px solid var(--tg-theme-hint-color);
 
-    .inputs {
+    .info {
+      color: var(--tg-theme-hint-color);
+    }
+
+    .inputs,
+    .info {
       display: flex;
       align-items: center;
       column-gap: 8px;
@@ -63,19 +69,27 @@ const AddProductsStyled = styled.div`
   }
 `;
 
+const calculateTotalCost = (payers: Record<string, number>) =>
+  Object.keys(payers).reduce((acc, name) => {
+    acc += payers[name];
+    return acc;
+  }, 0);
+
 const AddProducts = () => {
   const { products } = useProducts();
+  const { payers } = useContacts();
   const [edit, setEdit] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | undefined>();
   const [quantity, setQuantity] = useState<number | undefined>();
   const nameRef = useRef<HTMLInputElement | null>(null);
   const isActive = !!name && !!price && !!quantity;
-  const isNext = products.length >= 1;
+  const totalCost = calculateTotalCost(payers);
   const productsSum = products.reduce((acc, product) => {
     acc += product.price * product.quantity;
     return acc;
   }, 0);
+  const isNext = products.length >= 1 && totalCost === productsSum;
   const navigate = useNavigate();
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -167,9 +181,17 @@ const AddProducts = () => {
             />
           );
         })}
-        <span>Итого: {productsSum} руб.</span>
       </div>
       <form className="bottom" onSubmit={handleSubmit}>
+        <div className="inputs">
+          <div>
+            Итого: <span>{productsSum}</span> руб.
+          </div>
+          •
+          <div>
+            Заплачено: <span>{totalCost}</span> руб.
+          </div>
+        </div>
         <div className="inputs">
           <Input
             placeholder="Название"
