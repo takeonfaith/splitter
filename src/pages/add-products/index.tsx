@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ChevronRight, Trash } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -83,6 +83,7 @@ const AddProducts = () => {
   const [price, setPrice] = useState<number | undefined>();
   const [quantity, setQuantity] = useState<number | undefined>();
   const nameRef = useRef<HTMLInputElement | null>(null);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
   const isActive = !!name && !!price && !!quantity;
   const totalCost = calculateTotalCost(payers);
   const productsSum = products.reduce((acc, product) => {
@@ -106,8 +107,8 @@ const AddProducts = () => {
 
   const resetFields = () => {
     setName("");
-    setPrice(undefined);
-    setQuantity(undefined);
+    setPrice(NaN);
+    setQuantity(NaN);
   };
 
   const handleAddProduct = () => {
@@ -120,8 +121,6 @@ const AddProducts = () => {
       } as TProduct);
     }
     resetFields();
-    console.log(nameRef.current);
-
     nameRef.current?.focus();
   };
 
@@ -162,6 +161,14 @@ const AddProducts = () => {
     handleAddProduct();
   };
 
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [products]);
+
   return (
     <AddProductsStyled>
       <h2>Список продуктов</h2>
@@ -171,16 +178,18 @@ const AddProducts = () => {
             Введине название товара, его цену и количество
           </MessageBlock>
         )}
-        {products.map((product) => {
+        {products.map((product, index) => {
           return (
             <ProductItem
               {...product}
               key={product.id}
+              index={index + 1}
               chosen={edit === product.id}
               onEdit={editingStartHandle}
             />
           );
         })}
+        <div className="bottom" ref={bottomRef}></div>
       </div>
       <form className="bottom" onSubmit={handleSubmit}>
         <div className="inputs">
@@ -196,7 +205,7 @@ const AddProducts = () => {
           <Input
             placeholder="Название"
             value={name}
-            ref={nameRef}
+            innerRef={nameRef}
             onChange={handleChangeName}
           />
           <Input

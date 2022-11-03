@@ -42,7 +42,7 @@ const ProductItemStyled = styled(Block)<{ edit: boolean }>`
   &.sm {
     flex-direction: column;
     height: fit-content;
-    width: calc(100% / 3 - 6px);
+    width: calc(100% / 3 - 5.4px);
     display: inline-flex;
 
     .left {
@@ -95,6 +95,30 @@ const icons = {
   Шашлык: "🍢",
   Мясо: "🥩",
   Вода: "💧",
+  Соус: "🧴",
+  Шоколад: "🍫",
+  Конфеты: "🍬",
+  Мороженное: "🍦",
+  Суп: "🥣",
+  Торт: "🎂",
+  Сыр: "🧀",
+  "Хот-дог": "🌭",
+  Блины: "🥞",
+  Хлеб: "🍞",
+  Сэндвич: "🥪",
+  Пончик: "🍩",
+  Арбуз: "🍉",
+  Банан: "🍌",
+  Яблоко: "🍎",
+  Клубника: "🍓",
+  Огурец: "🥒",
+  Мокровь: "🥕",
+  Батон: "🥖",
+  Суши: "🍣",
+  Кофе: "☕",
+  Чай: "☕",
+  Сок: "🧃",
+  Куруруза: "🌽",
 };
 
 type Props = TProduct & {
@@ -102,6 +126,7 @@ type Props = TProduct & {
   chosen?: boolean;
   onEdit?: (id: string) => void;
   onChoose?: (product: TProduct) => void;
+  index?: number;
   size?: "sm" | "md";
 };
 
@@ -112,6 +137,7 @@ const ProductItem = ({
   quantity,
   onEdit,
   onChoose,
+  index,
   size = "md",
   edit = false,
   chosen = false,
@@ -131,6 +157,7 @@ const ProductItem = ({
       onClick={handleChoose}
     >
       <div className="left">
+        {index && <span>{index}. </span>}
         <Avatar
           icon={icons[name.trim() as keyof typeof icons] ?? "📦"}
           chosen={chosen}
@@ -147,7 +174,7 @@ const ProductItem = ({
             </div>
             •
             <div>
-              Количество: <span>{quantity}</span> шт.
+              Кол-во: <span>{quantity}</span> шт.
             </div>
           </div>
         </div>

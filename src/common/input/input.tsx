@@ -24,12 +24,13 @@ type Props = React.DetailedHTMLProps<
   HTMLInputElement
 > & {
   width?: string;
+  innerRef?: React.LegacyRef<HTMLInputElement> | undefined;
 };
 
-const Input: FC<Props> = ({ width, ref, ...restProps }) => {
+const Input: FC<Props> = ({ width, innerRef, ...restProps }) => {
   return (
     <InputStyled width={width}>
-      <input type={restProps.type ?? "text"} ref={ref} {...restProps} />
+      <input type={restProps.type ?? "text"} ref={innerRef} {...restProps} />
     </InputStyled>
   );
 };

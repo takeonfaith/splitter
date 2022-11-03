@@ -61,7 +61,7 @@ const User = ({
   ) => {
     e.stopPropagation();
     if (didPay) {
-      setSum(0);
+      setSum(NaN);
       deletePayer({ name });
     } else {
       if (!chosen) handleChoose();
