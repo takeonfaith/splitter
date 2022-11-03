@@ -2,21 +2,31 @@ import React from "react";
 import styled from "styled-components";
 import { Check as CheckIcon } from "react-feather";
 
-const CheckStyled = styled.div<{ chosen: boolean }>`
+const CheckStyled = styled.div<{
+  chosen: boolean;
+  absolute: boolean;
+  showEmptyCircle: boolean;
+}>`
   width: 20px;
   height: 20px;
-  transform: ${({ chosen }) => (chosen ? "scale(1)" : "scale(0.8)")};
-  opacity: ${({ chosen }) => (chosen ? "1" : "0")};
-  transition: 0.2s transform, 0.2s opacity;
   border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  background: var(--tg-theme-button-color);
-  border: 2px solid var(--tg-theme-bg-color);
+  position: ${({ absolute }) => (absolute ? "absolute" : "relative")};
+  bottom: ${({ absolute }) => (absolute ? "-2px" : "0")};
+  right: ${({ absolute }) => (absolute ? "-2px" : "0")};
+  .inner-circle {
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    transform: ${({ chosen }) => (chosen ? "scale(1)" : "scale(0.8)")};
+    opacity: ${({ chosen }) => (chosen ? "1" : "0")};
+    transition: 0.2s transform, 0.2s opacity;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tg-theme-button-color);
+  }
+  outline: ${({ showEmptyCircle }) =>
+    showEmptyCircle ? "2px solid #000" : "2px solid var(--tg-theme-bg-color)"};
 
   svg {
     width: 12px !important;
@@ -25,13 +35,21 @@ const CheckStyled = styled.div<{ chosen: boolean }>`
 `;
 
 type Props = {
+  absolute?: boolean;
   chosen: boolean;
+  showEmptyCircle?: boolean;
 };
 
-const Check = ({ chosen }: Props) => {
+const Check = ({ chosen, absolute = true, showEmptyCircle = false }: Props) => {
   return (
-    <CheckStyled chosen={chosen}>
-      <CheckIcon />
+    <CheckStyled
+      chosen={chosen}
+      absolute={absolute}
+      showEmptyCircle={showEmptyCircle}
+    >
+      <div className="inner-circle">
+        <CheckIcon />
+      </div>
     </CheckStyled>
   );
 };

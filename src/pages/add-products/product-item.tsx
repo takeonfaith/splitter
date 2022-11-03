@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Block } from "../../common/block";
 import { Button } from "../../common/button";
 import { TProduct } from "../../entity/product/type";
-import { Edit2 } from "react-feather";
+import { Edit2, MoreVertical } from "react-feather";
 import Avatar from "../../components/user/avatar";
+import { Checkbox } from "../../common/checkbox";
 
-const ProductItemStyled = styled(Block)<{ edit: boolean }>`
-  display: flex;
-  align-items: center;
+const ProductItemStyled = styled(Block)<{
+  edit: boolean;
+  openContext: boolean;
+}>`
   cursor: pointer;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  position: relative;
+
+  .top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .context {
+      transition: 0.2s opacity;
+      position: absolute;
+      top: 50px;
+      right: 25px;
+      opacity: ${({ openContext }) => +openContext};
+      background: var(--tg-theme-bg-color);
+      box-shadow: 0 1px 3px #00000030;
+      padding: 10px;
+      border-radius: 6px;
+      width: 200px;
+    }
+  }
 
   &.md {
     justify-content: space-between;
@@ -20,6 +45,7 @@ const ProductItemStyled = styled(Block)<{ edit: boolean }>`
       edit ? "2px solid var(--tg-theme-button-color)" : "none"};
 
     .left {
+      width: 100%;
       display: flex;
       column-gap: 8px;
       align-items: center;
@@ -63,7 +89,7 @@ const ProductItemStyled = styled(Block)<{ edit: boolean }>`
       }
     }
 
-    .edit-btn {
+    .more-btn {
       display: none;
     }
   }
@@ -142,12 +168,18 @@ const ProductItem = ({
   edit = false,
   chosen = false,
 }: Props) => {
+  const [openContext, setOpenContext] = useState(false);
   const handleEdit = () => {
     onEdit?.(id);
+    setOpenContext(false);
   };
 
   const handleChoose = () => {
     onChoose?.({ id, name, price, quantity } as TProduct);
+  };
+
+  const handleOpenContext = () => {
+    setOpenContext((prev) => !prev);
   };
 
   return (
@@ -155,40 +187,63 @@ const ProductItem = ({
       edit={edit}
       className={"product-item " + size}
       onClick={handleChoose}
+      openContext={openContext}
     >
-      <div className="left">
-        {index && <span>{index}. </span>}
-        <Avatar
-          icon={icons[name.trim() as keyof typeof icons] ?? "📦"}
-          chosen={chosen}
-        />
-        <div className="text">
-          <b>
-            {size === "sm"
-              ? name.substring(0, 10) + (name.length > 10 ? "..." : "")
-              : name}
-          </b>
-          <div className="info">
-            <div>
-              Цена: <span>{price}</span> руб.
-            </div>
-            •
-            <div>
-              Кол-во: <span>{quantity}</span> шт.
+      <div className="top">
+        <div className="left">
+          {index && <span>{index}. </span>}
+          <Avatar
+            icon={icons[name.trim() as keyof typeof icons] ?? "📦"}
+            chosen={chosen}
+          />
+          <div className="text">
+            <b>
+              {size === "sm"
+                ? name.substring(0, 10) + (name.length > 10 ? "..." : "")
+                : name}
+            </b>
+            <div className="info">
+              <div>
+                Цена: <span>{price}</span> руб.
+              </div>
+              •
+              <div>
+                Кол-во: <span>{quantity}</span> шт.
+              </div>
             </div>
           </div>
         </div>
+        <Button
+          color={"var(--tg-theme-text-color)"}
+          background={"var(--tg-theme-secondary-bg-color)"}
+          active
+          onClick={handleOpenContext}
+          className="more-btn"
+          width="40px"
+        >
+          <MoreVertical />
+        </Button>
+        <div className="context">
+          <Button
+            color={"var(--tg-theme-text-color)"}
+            background={"var(--tg-theme-secondary-bg-color)"}
+            active
+            onClick={handleEdit}
+            className="edit-btn"
+            width="100%"
+            align="left"
+          >
+            <Edit2 />
+            Изменить
+          </Button>
+          <Checkbox
+            title="Разделить на всех"
+            onChange={() => null}
+            view="toggle"
+          />
+        </div>
       </div>
-      <Button
-        color={"var(--tg-theme-text-color)"}
-        background={"var(--tg-theme-secondary-bg-color)"}
-        active
-        onClick={handleEdit}
-        className="edit-btn"
-        width="40px"
-      >
-        <Edit2 />
-      </Button>
+      Разделить на всех
     </ProductItemStyled>
   );
 };

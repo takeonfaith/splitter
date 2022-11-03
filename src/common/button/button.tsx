@@ -6,6 +6,7 @@ const ButtonStyled = styled.button<{
   color: string;
   active: boolean;
   width?: string;
+  align: "left" | "center" | "right";
 }>`
   width: ${({ width }) => width ?? "100%"};
   min-height: 40px;
@@ -22,8 +23,14 @@ const ButtonStyled = styled.button<{
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+  justify-content: ${({ align }) =>
+    align === "left" ? "flex-start" : align === "right" ? "flex-end" : align};
   transition: 0.2s;
+
+  svg {
+    width: 18px;
+  }
 `;
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -31,6 +38,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color: string;
   active: boolean;
   width?: string;
+  align?: "left" | "center" | "right";
 };
 
 const Button = ({
@@ -38,6 +46,7 @@ const Button = ({
   color,
   children,
   active,
+  align = "center",
   ...restProps
 }: Props) => {
   return (
@@ -45,6 +54,7 @@ const Button = ({
       background={background}
       color={color}
       active={active}
+      align={align}
       {...restProps}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ChevronRight, Trash } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -130,6 +130,7 @@ const AddProducts = () => {
     setName(name);
     setPrice(price);
     setQuantity(quantity);
+    nameRef.current?.focus();
   };
 
   const editHandle = () => {
@@ -189,7 +190,7 @@ const AddProducts = () => {
             />
           );
         })}
-        <div className="bottom" ref={bottomRef}></div>
+        <div ref={bottomRef}></div>
       </div>
       <form className="bottom" onSubmit={handleSubmit}>
         <div className="inputs">
