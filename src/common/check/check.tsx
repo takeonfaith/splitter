@@ -24,9 +24,10 @@ const CheckStyled = styled.div<{
     align-items: center;
     justify-content: center;
     background: var(--tg-theme-button-color);
+    outline: 2px solid var(--tg-theme-bg-color);
   }
   outline: ${({ showEmptyCircle }) =>
-    showEmptyCircle ? "2px solid #000" : "2px solid var(--tg-theme-bg-color)"};
+    showEmptyCircle ? "2px solid #000" : "none"};
 
   svg {
     width: 12px !important;

@@ -25,9 +25,10 @@ const CheckboxStyled = styled.div<{ checked: boolean }>`
           : "var(--tg-theme-secondary-bg-color)"};
       top: 50%;
       transition: 0.2s left;
-      left: ${({ checked }) => (checked ? "0px" : "calc(100% - 18px)")};
+      left: ${({ checked }) => (!checked ? "0px" : "calc(100% - 18px)")};
       transform: translateY(-50%);
       border-radius: 100%;
+      filter: brightness(1.2);
     }
   }
 `;
