@@ -6,6 +6,7 @@ import { TProduct } from "../../entity/product/type";
 import { Edit2, MoreVertical } from "react-feather";
 import Avatar from "../../components/user/avatar";
 import { Checkbox } from "../../common/checkbox";
+import { Divider } from "../../common/divider";
 
 const ProductItemStyled = styled(Block)<{
   edit: boolean;
@@ -253,18 +254,6 @@ const ProductItem = ({
         <MoreVertical />
       </Button>
       <div className="context">
-        <Button
-          color={"var(--tg-theme-text-color)"}
-          background={"var(--tg-theme-bg-color)"}
-          active
-          onClick={handleEdit}
-          className="edit-btn"
-          width="100%"
-          align="left"
-        >
-          <Edit2 />
-          Изменить
-        </Button>
         <Checkbox
           title="Разделить на всех"
           onChange={handleSeparate}
@@ -277,6 +266,19 @@ const ProductItem = ({
           view="toggle"
           active={!separate}
         />
+        <Divider margin="0" />
+        <Button
+          color={"var(--tg-theme-text-color)"}
+          background={"var(--tg-theme-bg-color)"}
+          active
+          onClick={handleEdit}
+          className="edit-btn"
+          width="100%"
+          align="left"
+        >
+          <Edit2 />
+          Изменить
+        </Button>
       </div>
     </ProductItemStyled>
   );

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import { Button } from "../../common/button";
+import { Divider } from "../../common/divider";
 import { Input } from "../../common/input";
 import { useContacts } from "../../entity/contacts/model";
 import {
@@ -47,8 +48,6 @@ const AddProductsStyled = styled.div`
     flex-direction: column;
     row-gap: 8px;
     width: 100%;
-    padding-top: 8px;
-    border-top: 1px solid var(--tg-theme-hint-color);
 
     .info {
       color: var(--tg-theme-hint-color);
@@ -194,6 +193,7 @@ const AddProducts = () => {
         <div ref={bottomRef}></div>
       </div>
       <form className="bottom" onSubmit={handleSubmit}>
+        <Divider margin="0 0 8px 0" />
         <div className="inputs">
           <div>
             Итого: <span>{productsSum}</span> руб.
