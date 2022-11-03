@@ -14,27 +14,26 @@ const ProductItemStyled = styled(Block)<{
   cursor: pointer;
   user-select: none;
   display: flex;
-  flex-direction: column;
-  row-gap: 8px;
+  align-items: center;
   position: relative;
 
-  .top {
-    width: 100%;
+  .context {
+    transition: 0.2s opacity, 0.2s transform;
+    position: absolute;
+    top: 50px;
+    right: 25px;
+    transform: ${({ openContext }) =>
+      openContext ? "translateY(0)" : "translateY(-20px)"};
+    opacity: ${({ openContext }) => +openContext};
+    background: var(--tg-theme-bg-color);
+    box-shadow: 0 1px 3px #00000030;
+    padding: 10px;
+    border-radius: 6px;
+    width: 200px;
+    font-size: 0.9rem;
     display: flex;
-    align-items: center;
-
-    .context {
-      transition: 0.2s opacity;
-      position: absolute;
-      top: 50px;
-      right: 25px;
-      opacity: ${({ openContext }) => +openContext};
-      background: var(--tg-theme-bg-color);
-      box-shadow: 0 1px 3px #00000030;
-      padding: 10px;
-      border-radius: 6px;
-      width: 200px;
-    }
+    flex-direction: column;
+    row-gap: 8px;
   }
 
   &.md {
@@ -189,61 +188,58 @@ const ProductItem = ({
       onClick={handleChoose}
       openContext={openContext}
     >
-      <div className="top">
-        <div className="left">
-          {index && <span>{index}. </span>}
-          <Avatar
-            icon={icons[name.trim() as keyof typeof icons] ?? "📦"}
-            chosen={chosen}
-          />
-          <div className="text">
-            <b>
-              {size === "sm"
-                ? name.substring(0, 10) + (name.length > 10 ? "..." : "")
-                : name}
-            </b>
-            <div className="info">
-              <div>
-                Цена: <span>{price}</span> руб.
-              </div>
-              •
-              <div>
-                Кол-во: <span>{quantity}</span> шт.
-              </div>
+      <div className="left">
+        {index && <span>{index}. </span>}
+        <Avatar
+          icon={icons[name.trim() as keyof typeof icons] ?? "📦"}
+          chosen={chosen}
+        />
+        <div className="text">
+          <b>
+            {size === "sm"
+              ? name.substring(0, 10) + (name.length > 10 ? "..." : "")
+              : name}
+          </b>
+          <div className="info">
+            <div>
+              Цена: <span>{price}</span> руб.
+            </div>
+            •
+            <div>
+              Кол-во: <span>{quantity}</span> шт.
             </div>
           </div>
         </div>
+      </div>
+      <Button
+        color={"var(--tg-theme-text-color)"}
+        background={"var(--tg-theme-secondary-bg-color)"}
+        active
+        onClick={handleOpenContext}
+        className="more-btn"
+        width="40px"
+      >
+        <MoreVertical />
+      </Button>
+      <div className="context">
         <Button
           color={"var(--tg-theme-text-color)"}
           background={"var(--tg-theme-secondary-bg-color)"}
           active
-          onClick={handleOpenContext}
-          className="more-btn"
-          width="40px"
+          onClick={handleEdit}
+          className="edit-btn"
+          width="100%"
+          align="left"
         >
-          <MoreVertical />
+          <Edit2 />
+          Изменить
         </Button>
-        <div className="context">
-          <Button
-            color={"var(--tg-theme-text-color)"}
-            background={"var(--tg-theme-secondary-bg-color)"}
-            active
-            onClick={handleEdit}
-            className="edit-btn"
-            width="100%"
-            align="left"
-          >
-            <Edit2 />
-            Изменить
-          </Button>
-          <Checkbox
-            title="Разделить на всех"
-            onChange={() => null}
-            view="toggle"
-          />
-        </div>
+        <Checkbox
+          title="Разделить на всех"
+          onChange={() => null}
+          view="toggle"
+        />
       </div>
-      Разделить на всех
     </ProductItemStyled>
   );
 };

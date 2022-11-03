@@ -140,6 +140,7 @@ const AddProducts = () => {
       editProduct({ id: edit, newProduct });
     }
     resetFields();
+    nameRef.current?.focus();
   };
 
   const handleRemove = () => {

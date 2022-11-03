@@ -28,7 +28,7 @@ const CheckboxStyled = styled.div<{ checked: boolean }>`
       left: ${({ checked }) => (!checked ? "0px" : "calc(100% - 18px)")};
       transform: translateY(-50%);
       border-radius: 100%;
-      filter: brightness(1.2);
+      filter: ${({ checked }) => checked && "brightness(1.2)"};
     }
   }
 `;
