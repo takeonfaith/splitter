@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Check } from "../check";
 
-const CheckboxStyled = styled.div<{ checked: boolean }>`
+const CheckboxStyled = styled.div<{ checked: boolean; active: boolean }>`
   display: flex;
   align-items: center;
   column-gap: 8px;
+  height: 40px;
+  pointer-events: ${({ active }) => (active ? "all" : "none")};
+  opacity: ${({ active }) => (active ? "1" : "0.5")};
 
   .toggle {
     width: 30px;
@@ -38,6 +41,7 @@ type CheckboxProps = {
   onChange: (value: boolean) => void;
   defaultValue?: boolean;
   view?: "checkbox" | "toggle";
+  active?: boolean;
 };
 
 const Checkbox = ({
@@ -45,6 +49,7 @@ const Checkbox = ({
   onChange,
   defaultValue,
   view = "checkbox",
+  active = true,
 }: CheckboxProps) => {
   const [checked, setChecked] = useState<boolean>(defaultValue ?? false);
 
@@ -54,7 +59,7 @@ const Checkbox = ({
   };
 
   return (
-    <CheckboxStyled onClick={handleCheck} checked={checked}>
+    <CheckboxStyled onClick={handleCheck} checked={checked} active={active}>
       {view === "checkbox" && (
         <Check chosen={checked} absolute={false} showEmptyCircle />
       )}

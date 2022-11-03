@@ -53,6 +53,23 @@ const ProductItemStyled = styled(Block)<{
         display: flex;
         flex-direction: column;
 
+        .name {
+          display: flex;
+          align-items: center;
+          column-gap: 8px;
+
+          .tag {
+            padding: 2px 5px;
+            font-size: 0.8rem;
+            color: var(--tg-theme-hint-color);
+            background: var(--tg-theme-secondary-bg-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
         .info {
           font-size: 0.85rem;
           margin-top: 4px;
@@ -168,6 +185,8 @@ const ProductItem = ({
   chosen = false,
 }: Props) => {
   const [openContext, setOpenContext] = useState(false);
+  const [separate, setSeparate] = useState(false);
+  const [proportion, setProportion] = useState(false);
   const handleEdit = () => {
     onEdit?.(id);
     setOpenContext(false);
@@ -179,6 +198,14 @@ const ProductItem = ({
 
   const handleOpenContext = () => {
     setOpenContext((prev) => !prev);
+  };
+
+  const handleSeparate = (value: boolean) => {
+    setSeparate(value);
+  };
+
+  const handleProportion = (value: boolean) => {
+    setProportion(value);
   };
 
   return (
@@ -195,11 +222,15 @@ const ProductItem = ({
           chosen={chosen}
         />
         <div className="text">
-          <b>
-            {size === "sm"
-              ? name.substring(0, 10) + (name.length > 10 ? "..." : "")
-              : name}
-          </b>
+          <div className="name">
+            <b>
+              {size === "sm"
+                ? name.substring(0, 10) + (name.length > 10 ? "..." : "")
+                : name}
+            </b>
+            {separate && <span className="tag">На всех</span>}
+            {proportion && <span className="tag">Пропорция</span>}
+          </div>
           <div className="info">
             <div>
               Цена: <span>{price}</span> руб.
@@ -224,7 +255,7 @@ const ProductItem = ({
       <div className="context">
         <Button
           color={"var(--tg-theme-text-color)"}
-          background={"var(--tg-theme-secondary-bg-color)"}
+          background={"var(--tg-theme-bg-color)"}
           active
           onClick={handleEdit}
           className="edit-btn"
@@ -236,8 +267,15 @@ const ProductItem = ({
         </Button>
         <Checkbox
           title="Разделить на всех"
-          onChange={() => null}
+          onChange={handleSeparate}
           view="toggle"
+          active={!proportion}
+        />
+        <Checkbox
+          title="Пропорции"
+          onChange={handleProportion}
+          view="toggle"
+          active={!separate}
         />
       </div>
     </ProductItemStyled>
