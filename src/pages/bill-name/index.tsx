@@ -5,6 +5,8 @@ import { Input } from "../../common/input";
 import { changeName } from "../../entity/bill-name/model";
 
 const BillNameStyled = styled.div`
+  width: 100%;
+  max-width: 450px;
   height: 100%;
   display: flex;
   flex-direction: column;
