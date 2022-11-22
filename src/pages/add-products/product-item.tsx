@@ -21,11 +21,12 @@ const ProductItemStyled = styled(Block)<{
   .context {
     transition: 0.2s opacity, 0.2s transform;
     position: absolute;
-    top: 50px;
-    right: 25px;
+    top: 60px;
+    right: 20px;
     transform: ${({ openContext }) =>
       openContext ? "translateY(0)" : "translateY(-20px)"};
     opacity: ${({ openContext }) => +openContext};
+    visibility: ${({ openContext }) => (openContext ? "visible" : "hidden")};
     background: var(--tg-theme-bg-color);
     box-shadow: 0 1px 3px #00000030;
     padding: 10px;

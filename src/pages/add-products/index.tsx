@@ -1,32 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
 import { ChevronRight, Trash } from "react-feather";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { v4 as uuid } from "uuid";
 import { Button } from "../../common/button";
 import { Divider } from "../../common/divider";
 import { Input } from "../../common/input";
-import { useContacts } from "../../entity/contacts/model";
-import {
-  addProduct,
-  editProduct,
-  removeProduct,
-  useProducts,
-} from "../../entity/product/model";
-import { TProduct } from "../../entity/product/type";
+import { Message } from "../../common/message";
+import useAddProducts from "./lib/use-add-products";
 import ProductItem from "./product-item";
-
-const MessageBlock = styled.div`
-  margin: auto;
-  max-width: 250px;
-  width: 100%;
-  text-align: center;
-  background: var(--tg-theme-secondary-bg-color);
-  color: var(--tg-theme-hint-color);
-  width: fit-content;
-  padding: 10px;
-  border-radius: 5px;
-`;
 
 const AddProductsStyled = styled.div`
   display: flex;
@@ -68,116 +47,35 @@ const AddProductsStyled = styled.div`
   }
 `;
 
-const calculateTotalCost = (payers: Record<string, number>) =>
-  Object.keys(payers).reduce((acc, name) => {
-    acc += payers[name];
-    return acc;
-  }, 0);
-
 const AddProducts = () => {
-  const { products } = useProducts();
-  const { payers } = useContacts();
-  const [edit, setEdit] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState<number | undefined>();
-  const [quantity, setQuantity] = useState<number | undefined>();
-  const nameRef = useRef<HTMLInputElement | null>(null);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
-  const isActive = !!name && !!price && !!quantity;
-  const totalCost = calculateTotalCost(payers);
-  const productsSum = products.reduce((acc, product) => {
-    acc += product.price * product.quantity;
-    return acc;
-  }, 0);
-  const isNext = products.length >= 1 && totalCost === productsSum;
-  const navigate = useNavigate();
-
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(Number.parseInt(e.target.value));
-  };
-
-  const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuantity(Number.parseInt(e.target.value));
-  };
-
-  const resetFields = () => {
-    setName("");
-    setPrice(NaN);
-    setQuantity(NaN);
-  };
-
-  const handleAddProduct = () => {
-    if (isActive) {
-      addProduct({
-        id: uuid(),
-        name,
-        price,
-        quantity,
-      } as TProduct);
-    }
-    resetFields();
-    nameRef.current?.focus();
-  };
-
-  const editingStartHandle = (id: string) => {
-    const { name, price, quantity } = products.find((p) => p.id === id)!;
-    setEdit(id);
-    setName(name);
-    setPrice(price);
-    setQuantity(quantity);
-    nameRef.current?.focus();
-  };
-
-  const editHandle = () => {
-    setEdit(null);
-    if (edit && price && quantity) {
-      const newProduct = { id: edit, name, price, quantity } as TProduct;
-      editProduct({ id: edit, newProduct });
-    }
-    resetFields();
-    nameRef.current?.focus();
-  };
-
-  const handleRemove = () => {
-    removeProduct(edit as string);
-    resetFields();
-    setEdit(null);
-  };
-
-  const handleGoNext = () => {
-    navigate("/assign-products-to-contacts");
-  };
-
-  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!!edit) {
-      return editHandle();
-    }
-
-    handleAddProduct();
-  };
-
-  const scrollToBottom = () => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [products]);
-
+  const {
+    products,
+    bottomRef,
+    handleSubmit,
+    productsSum,
+    name,
+    nameRef,
+    handleChangeName,
+    totalCost,
+    price,
+    handleChangePrice,
+    edit,
+    editingStartHandle,
+    quantity,
+    handleChangeQuantity,
+    isActive,
+    isNext,
+    handleGoNext,
+    handleRemove,
+  } = useAddProducts();
   return (
     <AddProductsStyled>
       <h2>Список продуктов</h2>
       <div className="list-of-products">
         {products.length === 0 && (
-          <MessageBlock>
+          <Message title="Подсказка">
             Введине название товара, его цену и количество
-          </MessageBlock>
+          </Message>
         )}
         {products.map((product, index) => {
           return (

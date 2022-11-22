@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AddContacts from "./pages/add-contacts";
 import AddProducts from "./pages/add-products";
 import AssignProductsToContacts from "./pages/assign-products-to-contacts";
+import BillName from "./pages/bill-name";
 import {
   default as ChooseContacts,
   default as SplitBill,
@@ -23,6 +24,7 @@ function App() {
   return (
     <AppStyled>
       <Routes>
+        <Route path="/bill-name" element={<BillName />} />
         <Route path="/add-contacts" element={<AddContacts />} />
         <Route path="/choose-contacts" element={<ChooseContacts />} />
         <Route path="/add-products" element={<AddProducts />} />

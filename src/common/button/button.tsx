@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const ButtonStyled = styled.button<{
@@ -38,6 +39,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color: string;
   active: boolean;
   width?: string;
+  navigateTo?: string;
   align?: "left" | "center" | "right";
 };
 
@@ -47,14 +49,24 @@ const Button = ({
   children,
   active,
   align = "center",
+  navigateTo,
+  onClick,
   ...restProps
 }: Props) => {
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    onClick?.(e);
+    if (navigateTo) navigate(navigateTo);
+  };
+
   return (
     <ButtonStyled
       background={background}
       color={color}
       active={active}
       align={align}
+      onClick={handleClick}
       {...restProps}
     >
       {children}
