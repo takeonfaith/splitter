@@ -103,6 +103,10 @@ const useAddProducts = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleShare = (product: TProduct) => {
+    editProduct({ id: product.id, newProduct: product });
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [products]);
@@ -126,6 +130,7 @@ const useAddProducts = () => {
     isNext,
     handleGoNext,
     handleRemove,
+    handleShare,
   };
 };
 

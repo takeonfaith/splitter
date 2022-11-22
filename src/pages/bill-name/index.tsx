@@ -29,7 +29,7 @@ const BillName = () => {
   return (
     <BillNameStyled>
       <div className="top">
-        <h2>Введите название рассчета</h2>
+        <h2>Введите название расчета</h2>
 
         <Input
           value={name}

@@ -170,6 +170,7 @@ type Props = TProduct & {
   chosen?: boolean;
   onEdit?: (id: string) => void;
   onChoose?: (product: TProduct) => void;
+  onHandleShare?: (product: TProduct) => void;
   index?: number;
   size?: "sm" | "md";
 };
@@ -183,6 +184,7 @@ const ProductItem = ({
   onChoose,
   index,
   size = "md",
+  onHandleShare,
   edit = false,
   chosen = false,
 }: Props) => {
@@ -204,6 +206,13 @@ const ProductItem = ({
 
   const handleSeparate = (value: boolean) => {
     setSeparate(value);
+    onHandleShare?.({
+      id,
+      name,
+      price,
+      quantity,
+      shared_by_all: true,
+    } as TProduct);
   };
 
   const handleProportion = (value: boolean) => {

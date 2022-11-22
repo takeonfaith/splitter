@@ -11,6 +11,10 @@ const MessageStyled = styled.div`
   width: fit-content;
   padding: 10px;
   border-radius: 5px;
+
+  h4 {
+    margin-bottom: 8px;
+  }
 `;
 
 type Props = {
@@ -21,7 +25,7 @@ type Props = {
 const Message = ({ title, children }: Props) => {
   return (
     <MessageStyled>
-      {!!title && <h3>{title}</h3>}
+      {!!title && <h4>{title}</h4>}
       {children}
     </MessageStyled>
   );

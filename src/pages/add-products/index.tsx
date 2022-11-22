@@ -67,6 +67,7 @@ const AddProducts = () => {
     isNext,
     handleGoNext,
     handleRemove,
+    handleShare,
   } = useAddProducts();
   return (
     <AddProductsStyled>
@@ -84,6 +85,7 @@ const AddProducts = () => {
               key={product.id}
               index={index + 1}
               chosen={edit === product.id}
+              onHandleShare={handleShare}
               onEdit={editingStartHandle}
             />
           );
